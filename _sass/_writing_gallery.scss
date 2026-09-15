@@ -1,0 +1,46 @@
+@use "variables" as *;
+
+.writing-gallery {
+  display: grid;
+  grid-template-columns: minmax(13rem, .72fr) minmax(0, 1.45fr);
+  gap: $space-6;
+  margin-top: $space-4;
+}
+
+.writing-gallery__list { display: grid; align-content: start; gap: $space-2; }
+.writing-gallery__card {
+  display: grid;
+  gap: $space-1;
+  width: 100%;
+  padding: $space-4 $space-5;
+  border: 1px solid var(--line-soft);
+  border-left: 3px solid transparent;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color $dur-fast $ease, background $dur-fast $ease, transform $dur-fast $ease;
+}
+.writing-gallery__card:hover { transform: translateX(2px); background: var(--sora-soft); }
+.writing-gallery__card.is-active { border-left-color: var(--sora-ink); background: var(--sora-soft); }
+.writing-gallery__card strong { font-family: $font-serif; font-size: $fs-lg; font-weight: 600; }
+.writing-gallery__card span { color: var(--muted); font-size: $fs-xs; }
+.writing-gallery__excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  color: var(--ink-soft) !important;
+  font-size: $fs-sm !important;
+  line-height: $lh-relaxed;
+}
+.writing-gallery__reader { min-width: 0; padding: $space-5 $space-6; border: 1px solid var(--line); background: var(--surface); }
+.writing-gallery__reader-head { display: flex; align-items: baseline; justify-content: space-between; gap: $space-4; padding-bottom: $space-4; border-bottom: 1px solid var(--line-soft); }
+.writing-gallery__reader-head h2 { margin: 0; font-family: $font-serif; font-size: $fs-2xl; }
+.writing-gallery__reader-head span { color: var(--muted); font-size: $fs-xs; }
+.writing-gallery__reader .writing-work__body { display: block; margin-top: $space-5; }
+.writing-gallery__reader .writing-work__body > * + * { margin-top: $space-4; }
+@media (max-width: 760px) {
+  .writing-gallery { grid-template-columns: 1fr; gap: $space-4; }
+  .writing-gallery__reader { padding: $space-5; }
+}

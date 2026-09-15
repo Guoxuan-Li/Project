@@ -1,0 +1,370 @@
+@use "variables" as *;
+
+// ════════════════════════════════════════════════════════════
+//   排行榜弹窗 —— 多层次梯队设计
+//   左侧竖排标签 + 右侧等级区块
+//   每个等级（S / A / B / C）有独特色彩与视觉词汇
+// ════════════════════════════════════════════════════════════
+
+// ── 模态容器 ──────────────────────────────────────────────────────────
+.travel-modal--rankings {
+  width: min(960px, 92vw);
+  height: min(780px, 88vh);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.travel-rankings__head {
+  height: 64px;
+  padding: 0 64px 0 28px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.travel-modal--rankings .travel-modal__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.travel-modal--rankings .travel-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+    background: transparent;
+    border: 0;
+  }
+
+// ── 主体布局（标签 + 内容） ─────────────────────────────────────────
+.travel-rankings__body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 118px 1fr;
+}
+
+// ── 竖排标签栏（同汇总页） ───────────────────────────────────────
+.travel-rankings__tabs {
+  padding: 18px 12px;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.travel-rankings__tab {
+  border: 0;
+  border-right: 3px solid transparent;
+  background: color-mix(in srgb, var(--cream) 28%, transparent);
+  cursor: pointer;
+  padding: 14px 10px;
+  border-radius: 0;
+  font-size: 15px;
+  text-align: center;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.14em;
+  min-height: 72px;
+  color: var(--muted);
+  transition: background $dur-fast , color -fast ;
+
+  &::-moz-focus-inner { border: 0; }
+
+  &.is-active {
+    background: color-mix(in srgb, var(--cream) 28%, transparent);
+    border-right-color: var(--accent, var(--sakura));
+    color: var(--accent, var(--sakura));
+    font-weight: 700;
+  }
+}
+
+
+
+// tab 之间的短横线分隔元素
+.travel-rankings__tab-divider {
+  width: 60%;
+  height: 1.5px;
+  margin: 2px auto;
+  background: linear-gradient(to right, transparent, var(--line) 28%, var(--line) 72%, transparent);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+
+.travel-rankings__content {
+  padding: 22px 28px 36px;
+  background: var(--cream);
+  overflow-y: auto;
+}
+
+.travel-rankings__tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// ── 等级区块 ────────────────────────────────────────────────────────
+.travel-rankings__tier {
+  // 默认色（未知等级）
+  --tier: var(--sumire);
+  --tier-soft: var(--sumire-soft);
+  --tier-ink: var(--sumire-ink);
+
+  &[data-tier="S"] {
+    --tier: var(--yuzu);
+    --tier-soft: var(--yuzu-soft);
+    --tier-ink: var(--yuzu-ink);
+  }
+  &[data-tier="A"] {
+    --tier: var(--sakura);
+    --tier-soft: var(--sakura-soft);
+    --tier-ink: var(--sakura-ink);
+  }
+  &[data-tier="B"] {
+    --tier: var(--sora);
+    --tier-soft: var(--sora-soft);
+    --tier-ink: var(--sora-ink);
+  }
+  &[data-tier="C"] {
+    --tier: var(--matcha);
+    --tier-soft: var(--matcha-soft);
+    --tier-ink: var(--matcha-ink);
+  }
+
+  display: flex;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  position: relative;
+}
+
+// ── 等级徽章（左侧色块） ─────────────────────────────────────────────
+.travel-rankings__tier-badge {
+  width: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tier);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  // 深色渐变营造立体感
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  span {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    font-family: $font-serif;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// ── 等级内容区 ─────────────────────────────────────────────────────
+.travel-rankings__tier-body {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 18px;
+  background: var(--tier-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 4px;
+  position: relative;
+
+  // 大号背景水印
+  &::after {
+    content: attr(data-watermark);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 80px;
+    font-weight: 900;
+    font-family: $font-serif;
+    color: var(--tier);
+    opacity: 0.05;
+    pointer-events: none;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+}
+
+// ── 名次组（一个等级位置） ─────────────────────────────────────────
+.travel-rankings__rank-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+  z-index: 1;
+}
+
+// ── 名次编号 ───────────────────────────────────────────────────────────
+.travel-rankings__rank-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: $radius-pill;
+  background: var(--tier);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: $font-sans;
+  flex-shrink: 0;
+  opacity: 0.82;
+}
+
+// ── 元素容器 ──────────────────────────────────────────────────────────────
+.travel-rankings__items {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+// ── 元素胶囊 ──────────────────────────────────────────────────────────────
+.travel-rankings__item {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: $radius-pill;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+  font-family: $font-serif;
+  font-weight: 600;
+  color: var(--tier-ink);
+  transition: transform $dur-fast , box-shadow $dur-fast ,
+              background $dur-fast ;
+  cursor: default;
+  white-space: nowrap;
+
+}
+
+[data-theme="cool"] {
+  .travel-rankings__tier-badge,
+  .travel-rankings__rank-num {
+    background: color-mix(in srgb, var(--tier) 52%, var(--cream));
+  }
+
+  .travel-rankings__tier-body {
+    background: color-mix(in srgb, var(--tier-soft) 66%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--tier) 24%, var(--line));
+    border-left: 0;
+  }
+
+  .travel-rankings__item {
+    background: color-mix(in srgb, var(--tier) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--tier) 24%, var(--line));
+    color: var(--tier-ink);
+  }
+
+  .travel-rankings__rank-group--tied .travel-rankings__items {
+    background: color-mix(in srgb, var(--tier) 8%, var(--surface));
+  }
+}
+
+// ── 并列组（等号连接的元素） ─────────────────────────────────────────
+.travel-rankings__rank-group--tied {
+  .travel-rankings__items {
+    padding: 3px 8px;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.32);
+    border: 1px dashed var(--tier);
+  }
+}
+
+.travel-rankings__tie-mark {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tier);
+  opacity: 0.55;
+  user-select: none;
+}
+
+// ── 名次分隔点 ───────────────────────────────────────────────────────────
+.travel-rankings__rank-sep {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--tier);
+  opacity: 0.2;
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+
+// ── 空状态 ──────────────────────────────────────────────────────────────────────────
+.travel-rankings__empty {
+  text-align: center;
+  color: var(--muted);
+  padding: $space-8 $space-4;
+  font-style: italic;
+}
+
+// ── 入场动画 ────────────────────────────────────────────────────────────────
+@keyframes rankingsTierIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.travel-rankings__tier {
+  animation: rankingsTierIn 0.32s  backwards;
+}
+
+.travel-rankings__tier:nth-child(1) { animation-delay: 0s; }
+.travel-rankings__tier:nth-child(2) { animation-delay: 0.07s; }
+.travel-rankings__tier:nth-child(3) { animation-delay: 0.14s; }
+.travel-rankings__tier:nth-child(4) { animation-delay: 0.21s; }
+.travel-rankings__tier:nth-child(5) { animation-delay: 0.28s; }
+.travel-rankings__tier:nth-child(6) { animation-delay: 0.35s; }
+
+// ── 移动端 ───────────────────────────────────────────────────────────────────
+@media (max-width: 640px) {
+  .travel-rankings__body {
+    grid-template-columns: 76px 1fr;
+  }
+
+  .travel-rankings__content {
+    padding: 16px 14px 26px;
+  }
+
+  .travel-rankings__item {
+    font-size: 14px;
+    padding: 3px 10px;
+  }
+
+  .travel-rankings__tier-badge {
+    width: 44px;
+
+    span { font-size: 24px; }
+  }
+
+  .travel-rankings__tier-body {
+    padding: 12px 14px;
+
+    &::after { font-size: 56px; }
+  }
+}

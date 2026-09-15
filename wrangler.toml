@@ -1,0 +1,8 @@
+name = "blog-template"
+compatibility_date = "2026-08-01"
+pages_build_output_dir = "_site"
+
+[[d1_databases]]
+binding = "BLOG_DB"
+database_name = "blog-template-db"
+database_id = "replace-with-your-d1-database-id"

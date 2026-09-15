@@ -1,0 +1,351 @@
+@use "variables" as *;
+
+// ════════════════════════════════════════════════════════════
+//   Search bar + chips + scope toggles
+//   These styles are written generically -- the prefix class
+//   on the toolbar ([data-prefix]) controls the visual theme.
+//   Each listing page sets its own prefix (book, recipe, travel).
+// ════════════════════════════════════════════════════════════
+
+// The toolbar reads data-accent to pick a color. We use a CSS
+// cascade: the accent is set as --accent / --accent-soft on :root
+// by the page layout, and these styles reference those variables.
+
+.listing-toolbar,
+.book-toolbar,
+.recipe-toolbar,
+.travel-toolbar {
+  max-width: $width-page;
+  margin-inline: auto;
+  padding-inline: $space-5;
+  margin-bottom: $space-6;
+  @media (max-width: 640px) { padding-inline: $space-4; }
+}
+
+.search-row,
+.book-search-row,
+.recipe-search-row,
+.travel-search-row {
+  display: flex;
+  align-items: stretch;
+  gap: $space-2;
+  @media (max-width: 640px) { flex-direction: column; }
+}
+
+// Search container -- shared by all prefixes
+.book-search,
+.recipe-search,
+.travel-search,
+.listing-search {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  min-height: 56px;
+  padding: $space-3 $space-4;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: $radius-md;
+  cursor: text;
+  transition: border-color $dur-fast $ease, box-shadow $dur-fast $ease;
+
+  &:hover, &:focus-within {
+    border-color: var(--accent, $sakura);
+    box-shadow: 0 0 0 3px var(--accent-soft, $sakura-soft);
+  }
+}
+
+.book-search__chips,
+.recipe-search__chips,
+.travel-search__chips,
+.listing-search__chips {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  min-width: 0;
+}
+
+.book-search__input,
+.recipe-search__input,
+.travel-search__input,
+.listing-search__input {
+  flex: 1;
+  min-width: 120px;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: $space-2;
+  font-family: $font-sans;
+  font-size: $fs-base;
+  color: var(--ink);
+
+  &--inline { flex: none; min-width: 2ch; padding-inline: 0; }
+  &::placeholder { color: var(--muted); }
+}
+
+.book-search__fixed-placeholder,
+.recipe-search__fixed-placeholder,
+.travel-search__fixed-placeholder,
+.listing-search__fixed-placeholder {
+  flex: 1;
+  min-width: 200px;
+  padding: $space-2;
+  color: var(--muted);
+  font-family: $font-sans;
+  font-size: $fs-base;
+  text-align: left;
+  cursor: text;
+}
+
+// Scope dropdown
+.book-search-scope,
+.recipe-search-scope,
+.travel-search-scope,
+.listing-search-scope {
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 112px;
+  z-index: 20;
+  user-select: none;
+
+  summary {
+    min-height: 56px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $space-2 $space-4;
+    border: 1px solid var(--line-soft);
+    border-radius: $radius-md;
+    background: var(--surface);
+    cursor: pointer;
+    list-style: none;
+    &::-webkit-details-marker { display: none; }
+    strong { color: var(--accent, $sakura); font-size: $fs-sm; white-space: nowrap; }
+  }
+  &[open] summary {
+    border-color: var(--accent, $sakura);
+    box-shadow: 0 0 0 3px var(--accent-soft, $sakura-soft);
+  }
+  @media (max-width: 640px) { min-width: 0; }
+}
+
+.book-search-scope__menu,
+.recipe-search-scope__menu,
+.travel-search-scope__menu,
+.listing-search-scope__menu {
+  position: absolute;
+  top: calc(100% + #{$space-2});
+  left: 0;
+  display: grid;
+  gap: $space-2;
+  min-width: 220px;
+  padding: $space-3;
+  border: 1px solid var(--line-soft);
+  border-radius: $radius-md;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  user-select: none;
+
+  > p { margin: 0 0 $space-1; color: var(--accent, $sakura); font-size: $fs-xs; font-weight: 600; letter-spacing: 0.05em; }
+  label { display: flex; align-items: center; gap: $space-2; color: var(--ink-soft); font-size: $fs-sm; cursor: pointer; }
+  input { accent-color: var(--accent, $sakura); }
+}
+
+.book-search-scope__actions,
+.recipe-search-scope__actions,
+.travel-search-scope__actions,
+.listing-search-scope__actions {
+  display: flex;
+  gap: $space-2;
+  margin-top: $space-1;
+  padding-top: $space-2;
+  border-top: 1px solid var(--line-soft);
+  button {
+    flex: 1;
+    padding: $space-1 $space-2;
+    border-radius: $radius-sm;
+    background: var(--accent-soft, $sakura-soft);
+    color: var(--accent, $sakura);
+    font-size: $fs-xs;
+    white-space: nowrap;
+    &:hover { background: var(--accent, $sakura); color: var(--surface); }
+  }
+}
+
+.book-search__hint,
+.recipe-search__hint,
+.travel-search__hint,
+.listing-search__hint {
+  font-size: $fs-xs;
+  color: var(--muted);
+  margin-top: $space-3;
+}
+
+.book-search__count,
+.recipe-search__count,
+.travel-search__count,
+.listing-search__count {
+  font-size: $fs-sm;
+  color: var(--ink-soft);
+  margin-top: $space-3;
+  strong { color: var(--accent, $sakura); font-family: $font-serif; font-weight: 600; }
+}
+
+// ── Chips ─────────────────────────────────────────────
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: $space-1 $space-2 $space-1 $space-3;
+  background: var(--accent-soft, $sakura-soft);
+  color: var(--accent, $sakura);
+  border-radius: $radius-pill;
+  font-size: $fs-sm;
+  font-family: $font-sans;
+  animation: chip-enter 0.22s $ease-soft both;
+
+  &--static { animation: none; }
+  &--removing { animation: chip-exit 0.18s $ease both; }
+}
+
+@keyframes chip-enter {
+  from { opacity: 0; transform: scale(0.85) translateY(-2px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes chip-exit {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.85); }
+}
+
+.chip__term {
+  cursor: text;
+  color: inherit;
+  font-size: inherit;
+  &:hover { text-decoration: underline; text-underline-offset: 2px; }
+}
+
+.chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.6;
+  font-size: $fs-sm;
+  line-height: 1;
+  transition: opacity $dur-fast $ease, background $dur-fast $ease;
+  &:hover { opacity: 1; background: rgba(0,0,0,0.1); }
+}
+
+.chip__edit {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0 $space-1;
+  min-width: 3ch;
+  outline: 2px solid var(--accent, $sakura);
+  outline-offset: 1px;
+  border-radius: $radius-sm;
+}
+
+.chip-op {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px $space-2;
+  border-radius: $radius-pill;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: $fs-xs;
+  font-family: $font-mono;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all $dur-fast $ease;
+  &:hover { color: var(--ink); background: rgba(0,0,0,0.06); }
+  &--or { background: var(--accent-soft, $sakura-soft); color: var(--accent, $sakura); }
+  &--removing { animation: chip-exit 0.16s $ease both; }
+}
+
+.chip-caret-slot {
+  position: relative;
+  width: 1px;
+  margin-left: -$space-1;
+  align-self: stretch;
+  min-height: 28px;
+  padding: 0;
+  border-radius: 2px;
+  cursor: text;
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: 2px;
+    left: 50%;
+    width: 14px;
+    transform: translateX(-50%);
+    border-radius: 3px;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset-block: 7px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%) scaleY(0.35);
+    border-radius: 2px;
+    background: var(--accent, $sakura);
+    opacity: 0;
+    transition: opacity $dur-fast $ease, transform $dur-fast $ease-soft;
+  }
+  &:hover, &:focus-visible {
+    outline: none;
+    &::after { opacity: 1; transform: translateX(-50%) scaleY(1); }
+  }
+  &:hover + .chip-op,
+  &:focus-visible + .chip-op,
+  &:hover + .chip,
+  &:focus-visible + .chip { transform: translateX(4px); }
+}
+
+.search-hit {
+  background: var(--accent, $sakura);
+  color: var(--surface);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+// Travel-specific scope menu extras
+.travel-search-scope__divider {
+  width: 2px;
+  height: 0.9em;
+  background: $sakura;
+}
+.travel-filter-column {
+  display: grid;
+  align-content: start;
+  gap: $space-2;
+  & + & { padding-left: $space-3; border-left: 2px solid $sakura-soft; }
+  > p { margin: 0 0 $space-1; color: var(--muted); font-size: $fs-xs; font-weight: 600; letter-spacing: 0.05em; }
+}
+.travel-filters { display: flex; flex-wrap: wrap; gap: $space-2; margin-bottom: $space-3; }
+.travel-filters__chip {
+  padding: $space-1 $space-4;
+  border-radius: $radius-pill;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: $fs-sm;
+  cursor: pointer;
+  transition: all $dur-fast $ease;
+  &:hover { color: var(--ink); border-color: $sakura; }
+  &.is-active { background: $sakura-soft; border-color: transparent; color: $sakura-ink; font-weight: 500; }
+}

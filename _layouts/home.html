@@ -1,0 +1,60 @@
+---
+layout: default
+---
+<div class="tide-home container">
+  <section class="tide-hero" aria-labelledby="home-title">
+    <div class="tide-hero__copy">
+      <p class="tide-eyebrow"><span class="tide-dot"></span> A LITTLE CORNER OF MY WORLD</p>
+      <h1 id="home-title">世界很大，<br>慢慢去<span class="tide-underline">看看。</span></h1>
+      <p class="tide-hero__lead">你好，我是 <strong>{{ site.author.name | escape }}</strong>。<br>这里装着城市足迹、小动物、手作与沿途的味道。</p>
+      <div class="tide-hero__links">
+        <a class="tide-button" href="{{ '/travels/' | relative_url }}">打开旅行地图 <span aria-hidden="true">↗</span></a>
+        <a class="tide-text-link" href="{{ '/about/' | relative_url }}">认识一下我 <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="tide-hero__aside"><span aria-hidden="true">✳</span> 走走停停，和世界慢慢熟悉。</p>
+    </div>
+    <div class="tide-hero__art">
+      <span class="tide-art-label">somewhere, by the sea</span>
+      <img src="{{ '/assets/images/cat-window.svg' | relative_url }}" width="500" height="440" alt="一只白色小猫坐在窗前，望着青绿色的大海、远山和帆船。">
+      <button class="tide-cat-button" type="button" aria-label="摸摸小猫" title="摸摸小猫">摸摸小猫 <span aria-hidden="true">♧</span></button>
+      <span class="tide-cat-reply" role="status" aria-live="polite"></span>
+      <span class="tide-art-caption">with a cat, and a little curiosity.</span>
+    </div>
+  </section>
+  <section class="tide-explore" aria-labelledby="explore-title">
+    <div class="tide-section-heading"><h2 id="explore-title">在这里逛逛</h2><span>TAKE YOUR TIME · 慢一点也没关系</span></div>
+    <div class="tide-portals tide-portals--four">
+      <a class="tide-portal tide-portal--map" href="{{ '/travels/' | relative_url }}">
+        <div class="tide-portal__icon" aria-hidden="true">{% include tide-icon.html icon="map" %}</div>
+        <div><span class="tide-portal__en">THE PLACES</span><h3>旅行地图</h3><p>把路过的城市，变成可以重温的记忆。</p><span class="tide-portal__action">沿着足迹出发 <span aria-hidden="true">↗</span></span></div>
+        <span class="tide-portal__number" aria-hidden="true">01</span>
+      </a>
+      <a class="tide-portal tide-portal--food" href="{{ '/food/' | relative_url }}">
+        <div class="tide-portal__icon" aria-hidden="true">◌</div>
+        <div><span class="tide-portal__en">THE FLAVOURS</span><h3>美食地图</h3><p>记住一道菜，也记住遇见它的城市。</p><span class="tide-portal__action">寻找沿途味道 <span aria-hidden="true">↗</span></span></div>
+        <span class="tide-portal__number" aria-hidden="true">02</span>
+      </a>
+      <a class="tide-portal tide-portal--animals" href="{{ '/animals/' | relative_url }}">
+        <div class="tide-portal__icon" aria-hidden="true">♧</div>
+        <div><span class="tide-portal__en">THE LITTLE FRIENDS</span><h3>小动物</h3><p>收集毛茸茸的朋友和短暂相遇。</p><span class="tide-portal__action">去看看它们 <span aria-hidden="true">↗</span></span></div>
+        <span class="tide-portal__number" aria-hidden="true">03</span>
+      </a>
+      <a class="tide-portal tide-portal--crafts" href="{{ '/crafts/' | relative_url }}">
+        <div class="tide-portal__icon" aria-hidden="true">✣</div>
+        <div><span class="tide-portal__en">MADE BY HAND</span><h3>手作物</h3><p>把时间变成一件可以触摸的小东西。</p><span class="tide-portal__action">打开手作柜 <span aria-hidden="true">↗</span></span></div>
+        <span class="tide-portal__number" aria-hidden="true">04</span>
+      </a>
+      <a class="tide-portal tide-portal--friends" href="{{ '/friends/' | relative_url }}">
+        <div class="tide-portal__icon" aria-hidden="true">⌁</div>
+        <div><span class="tide-portal__en">FRIENDS AROUND THE WEB</span><h3>亲友</h3><p>从这里出发，去朋友的小站串串门。</p><span class="tide-portal__action">拜访朋友 <span aria-hidden="true">↗</span></span></div>
+        <span class="tide-portal__number" aria-hidden="true">05</span>
+      </a>
+      <a class="tide-portal tide-portal--about" href="{{ '/about/' | relative_url }}">
+        <div class="tide-portal__icon" aria-hidden="true">{% include tide-icon.html icon="cat" %}</div>
+        <div><span class="tide-portal__en">THE PERSON</span><h3>关于我</h3><p>地图之外，认识屏幕另一边的我。</p><span class="tide-portal__action">从一句你好开始 <span aria-hidden="true">↗</span></span></div>
+        <span class="tide-portal__number" aria-hidden="true">06</span>
+      </a>
+    </div>
+  </section>
+  <div class="tide-bottom-note"><span aria-hidden="true">✧</span><p>给生活留一点空白，给好奇心留一扇窗。</p><span aria-hidden="true">✧</span></div>
+</div>

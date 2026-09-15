@@ -1,0 +1,60 @@
+{%- comment -%}
+  Reusable search bar with chip/token locking, AND/OR operators,
+  and per-field scope toggles.
+
+  Parameters (all optional, with sensible defaults):
+    prefix    : CSS class prefix, e.g. "book", "recipe", "travel"
+                (defaults to "listing")
+    scopes    : space-separated scope keys, e.g. "title author summary"
+    labels    : pipe-separated labels matching scopes, e.g. "Title|Author|Summary"
+    placeholder : input placeholder text
+    unit      : count unit, e.g. "books" / "recipes" / "cities"
+    accent    : accent color key for theming (yuzu / sakura / etc.)
+
+  The matching JS is loaded by listing.js, which reads the same
+  data-* attributes emitted here.
+{%- endcomment -%}
+{%- assign pfx = include.prefix | default: "listing" -%}
+{%- assign accent = include.accent | default: "sakura" -%}
+{%- assign scope_list = include.scopes | split: " " -%}
+{%- assign label_list = include.labels | split: "|" -%}
+
+<div class="{{ pfx }}-toolbar" data-search-toolbar data-prefix="{{ pfx }}" data-accent="{{ accent }}">
+  <div class="{{ pfx }}-search-row">
+    {%- if include.scopes -%}
+    <details class="{{ pfx }}-search-scope" data-search-scope>
+      <summary><strong data-scope-label>All</strong></summary>
+      <div class="{{ pfx }}-search-scope__menu">
+        <p>Search within</p>
+        {%- for s in scope_list -%}
+          {%- assign lbl = label_list[forloop.index0] | default: s -%}
+          <label><input type="checkbox" value="{{ s }}" data-scope-field checked> {{ lbl }}</label>
+        {%- endfor -%}
+        <div class="{{ pfx }}-search-scope__actions">
+          <button type="button" data-scope-action="all">Select all</button>
+          <button type="button" data-scope-action="none">Clear all</button>
+        </div>
+      </div>
+    </details>
+    {%- endif -%}
+
+    <div class="{{ pfx }}-search" role="search">
+      <div class="{{ pfx }}-search__chips" data-search-chips aria-label="Locked search terms"></div>
+      <input
+        class="{{ pfx }}-search__input"
+        type="search"
+        data-search-input
+        placeholder="{{ include.placeholder | default: 'Search...' }}"
+        autocomplete="off"
+        aria-label="Search"
+      >
+    </div>
+  </div>
+  <p class="{{ pfx }}-search__hint">
+    Type to search instantly. Press Enter to lock a term (stack as many as you like). Click AND / OR between terms to switch match mode.
+  </p>
+  <p class="{{ pfx }}-search__count">
+    Total <strong data-count-total>--</strong> {{ include.unit | default: "items" }}
+    &middot; Showing <strong data-count-shown>--</strong>
+  </p>
+</div>

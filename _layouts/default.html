@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+{% include head.html %}
+<body class="page--{{ page.section | default: 'default' }}" data-palette="{{ site.palette | default: 'paper' }}"
+      data-backend-mode="{{ site.backend.mode | default: 'demo' }}"
+      data-api-base="{{ site.backend.api_base | default: '/api' }}" data-baseurl="{{ site.baseurl }}">
+  {% include nav.html %}
+
+  <main id="main" class="site-main">
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
+
+  <script src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>
+  <script src="{{ '/assets/js/tide.js' | relative_url }}" defer></script>
+</body>
+</html>

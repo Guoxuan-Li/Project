@@ -1,0 +1,221 @@
+@use "variables" as *;
+
+/* Match the first paint to the saved tab before deferred scripts initialize. */
+html[data-writing-view="chain"] [data-writing-panel="finished"] {
+  display: none;
+}
+
+html[data-writing-view="chain"] [data-writing-panel="chain"] {
+  display: block;
+}
+
+html[data-writing-view="chain"] .writing-tabs__tab[data-writing-tab="finished"] {
+  border-color: var(--line-soft);
+  background: var(--surface);
+  color: var(--ink-soft);
+  box-shadow: none;
+}
+
+html[data-writing-view="chain"] .writing-tabs__tab[data-writing-tab="finished"]:not(.is-active):hover {
+  border-color: var(--accent, var(--sora));
+  background: var(--accent-soft, var(--sora-soft));
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+html[data-writing-view="chain"] .writing-tabs__tab[data-writing-tab="finished"]:not(.is-active):active {
+  transform: translateY(0) scale(.97);
+}
+
+html[data-writing-view="chain"] .writing-tabs__tab[data-writing-tab="chain"] {
+  border-color: var(--accent, var(--sora));
+  background: var(--accent, var(--sora));
+  color: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Personal works use the same grid-to-full-row reading model as travel cards. */
+.writing-section--finished {
+  position: relative;
+  overflow-anchor: none;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.writing-section--finished > .writing-work {
+  min-width: 0;
+  margin-top: 0;
+}
+
+.writing-section--finished > .writing-work--expanded,
+.writing-section--finished > .writing-work--body-animating {
+  grid-column: 1 / -1;
+}
+
+.writing-work[data-writing-work] {
+  --writing-card-motion-ease: #{$ease-soft};
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-anchor: none;
+  border-radius: $radius-lg;
+  transition: border-color $dur-base $ease, box-shadow $dur-base $ease,
+              opacity 0.3s $ease;
+}
+
+.writing-work[data-writing-work]:hover,
+.writing-work--expanded[data-writing-work],
+.writing-work--body-animating[data-writing-work] {
+  border-color: var(--accent, var(--sora));
+}
+
+.writing-work--expanded[data-writing-work],
+.writing-work--body-animating[data-writing-work] {
+  box-shadow: var(--shadow-md);
+}
+
+.writing-work--layout-moving[data-writing-work] {
+  z-index: 30;
+  will-change: transform, width, height;
+}
+
+.writing-work--opening[data-writing-work],
+.writing-work--closing[data-writing-work] {
+  z-index: 30;
+}
+
+.writing-work--opening[data-writing-work] {
+  --writing-card-motion-ease: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.writing-work--closing[data-writing-work] {
+  --writing-card-motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.writing-work--peer-fading[data-writing-work] {
+  opacity: 0.36;
+  transition: opacity 0.3s $ease;
+}
+
+.writing-work[data-writing-work] .writing-work__summary {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  align-items: flex-start;
+  padding: $space-4 $space-5 0;
+  font: inherit;
+  transition: padding 0.3s var(--writing-card-motion-ease);
+}
+
+.writing-work--expanded[data-writing-work] .writing-work__summary,
+.writing-work--body-animating[data-writing-work] .writing-work__summary {
+  padding: $space-5 $space-7 0;
+}
+
+.writing-work[data-writing-work] .writing-work__summary::after {
+  content: none;
+  display: none;
+}
+
+.writing-work--expanded[data-writing-work] .writing-work__title,
+.writing-work--body-animating[data-writing-work] .writing-work__title {
+  color: var(--sora-ink);
+}
+
+.writing-work[data-writing-work] .writing-work__body {
+  height: 8.75rem;
+  max-height: none;
+  padding: $space-3 $space-5 $space-6;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: $fs-sm;
+  line-height: $lh-relaxed;
+  transition: padding 0.3s var(--writing-card-motion-ease);
+}
+
+.writing-work--expanded[data-writing-work] .writing-work__body,
+.writing-work--body-animating[data-writing-work] .writing-work__body {
+  height: auto;
+  max-height: none;
+  padding: $space-5 $space-7 $space-7;
+  cursor: auto;
+  font-size: $fs-base;
+}
+
+.writing-work[data-writing-work] .writing-work__body-inner {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  max-height: 4.75rem;
+  max-width: 75ch;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.writing-work[data-writing-work] .writing-work__body-inner.keep-unclamped,
+.writing-work--expanded[data-writing-work] .writing-work__body-inner,
+.writing-work--body-animating[data-writing-work] .writing-work__body-inner {
+  display: block;
+  -webkit-line-clamp: initial;
+  max-height: none;
+}
+
+.writing-work--opening[data-writing-work] .writing-work__body-inner {
+  animation: writing-body-expand 0.3s var(--writing-card-motion-ease) both;
+  will-change: transform, opacity;
+}
+
+.writing-work--closing[data-writing-work] .writing-work__body-inner {
+  animation: writing-body-collapse 0.3s var(--writing-card-motion-ease) both;
+  will-change: transform, opacity;
+}
+
+.writing-work[data-writing-work] .writing-work__body.writing-work--layout-moving {
+  transition: transform 0.3s var(--writing-card-motion-ease),
+              padding 0.3s var(--writing-card-motion-ease);
+  will-change: transform;
+}
+
+.writing-work[data-writing-work]:not(.writing-work--expanded) .writing-work__body a,
+.writing-work[data-writing-work]:not(.writing-work--expanded) .writing-work__body button {
+  pointer-events: none;
+}
+
+.writing-work[data-writing-work] .writing-work__collapse {
+  pointer-events: auto;
+}
+
+@keyframes writing-body-expand {
+  from { opacity: 0.78; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes writing-body-collapse {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0.82; transform: translateY(-8px); }
+}
+
+@media (max-width: 720px) {
+  .writing-section--finished { grid-template-columns: 1fr; }
+  .writing-section--finished > .writing-work--expanded,
+  .writing-section--finished > .writing-work--body-animating { grid-column: auto; }
+
+  .writing-work--expanded[data-writing-work] .writing-work__summary,
+  .writing-work--body-animating[data-writing-work] .writing-work__summary {
+    padding-inline: $space-4;
+  }
+
+  .writing-work--expanded[data-writing-work] .writing-work__body,
+  .writing-work--body-animating[data-writing-work] .writing-work__body {
+    padding-inline: $space-4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .writing-work--opening[data-writing-work] .writing-work__body-inner,
+  .writing-work--closing[data-writing-work] .writing-work__body-inner {
+    animation: none;
+  }
+}

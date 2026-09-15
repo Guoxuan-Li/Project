@@ -1,0 +1,76 @@
+---
+layout: default
+title: Writing
+section: writing
+accent: sumire
+eyebrow: Writing
+permalink: /writing/
+---
+
+<header class="listing-header">
+  <div class="container">
+    <p class="listing-header__eyebrow">Writing</p>
+    <h1 class="listing-header__title">Things written down</h1>
+    <p class="listing-header__desc">Short pieces and notes, written in spare moments.</p>
+  </div>
+</header>
+
+<div class="writing-tabs" role="tablist" aria-label="Writing views">
+  <button type="button" class="is-active" data-writing-tab="finished" role="tab" aria-selected="true">Personal works</button>
+  {% if site.features.story_tree %}<button type="button" data-writing-tab="chain" role="tab" aria-selected="false">Story garden</button>{% endif %}
+</div>
+
+{% assign writing_notebook = site.data.writing_notebook %}
+<div class="writing-notebook prose" data-writing-panel="finished">
+  {% if writing_notebook %}{{ writing_notebook.content | markdownify }}{% else %}<p>Nothing here yet.</p>{% endif %}
+</div>
+
+{% if site.features.story_tree %}
+<section class="story-tree-app" id="story-tree-app" data-writing-panel="chain" hidden aria-labelledby="story-tree-title">
+  <div class="story-tree-header-block story-tree-header-block--library" data-story-library-header>
+    <div class="story-tree-toolbar">
+      <div><p class="story-tree-eyebrow">Collaborative story tree</p><h2 id="story-tree-title">Story garden</h2></div>
+      <div class="story-tree-toolbar__actions"><button type="button" data-create-story>Start a story</button></div>
+    </div>
+    <p class="story-tree-note">Choose a story to explore the nodes growing from it.</p>
+  </div>
+  <div class="story-tree-stage" data-story-stage>
+    <div class="story-library" data-story-library>
+      <div class="story-carousel" data-story-carousel>
+        <button class="story-carousel__arrow story-carousel__arrow--prev" type="button" data-story-prev aria-label="Previous story">&larr;</button>
+        <div class="story-carousel__viewport" data-story-viewport tabindex="0" aria-label="Story list"></div>
+        <button class="story-carousel__arrow story-carousel__arrow--next" type="button" data-story-next aria-label="Next story">&rarr;</button>
+      </div>
+      <p class="story-carousel__status" data-story-status aria-live="polite"></p>
+    </div>
+    <div class="story-detail" data-story-detail hidden>
+      <div class="story-detail__nav">
+        <label class="story-tree-select"><span>Switch story</span><select data-story-select></select></label>
+      </div>
+      <div class="story-tree-pane">
+        <button class="story-detail__back story-tree-pane__back" type="button" data-story-back>&larr; Back to stories</button>
+        <div class="story-tree-header-block story-tree-header-block--detail">
+          <div class="story-tree-toolbar"><div><p class="story-tree-eyebrow">Collaborative story tree</p><h2>Story garden</h2></div></div>
+          <p class="story-tree-note">Choose a node, then read or continue it on the right.</p>
+        </div>
+        <div class="story-tree-list" data-story-tree></div>
+        <div class="story-tree-pane__actions"><button type="button" data-action="create-from">Continue here</button><button type="button" data-action="edit">Edit passage</button></div>
+      </div>
+      <section class="story-reader" data-story-reader aria-live="polite">
+        <div class="story-detail__heading"><p class="story-tree-eyebrow">Story garden</p><div class="story-detail__title-row"><h2 data-story-detail-title></h2><span data-story-like></span></div></div>
+        <div class="story-reader__head"><p class="story-tree-eyebrow">Now reading</p><p class="story-reader__branch-title" data-reader-branch-title hidden></p><h2 data-reader-title></h2></div>
+        <div class="story-reader__modes" role="group" aria-label="Reading mode"><button type="button" class="is-active" data-reader-mode="node">Current passage</button><button type="button" data-reader-mode="path">From the beginning</button></div>
+        <div class="story-reader__content" data-reader-content></div>
+        <div class="story-composer" data-story-composer hidden></div>
+      </section>
+    </div>
+  </div>
+  <div class="story-dialog" data-story-dialog hidden role="dialog" aria-modal="true"></div>
+</section>
+{% endif %}
+
+<script src="{{ '/assets/js/writing-cards.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>
+{% if site.features.story_tree %}
+<script src="{{ '/assets/js/bubble-pack.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>
+<script src="{{ '/assets/js/story-tree.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>
+{% endif %}

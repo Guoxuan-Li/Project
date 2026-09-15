@@ -1,0 +1,43 @@
+---
+layout: default
+---
+{% assign exp_source = site.data.experience_content.content | default: content %}
+{% assign exp_html = exp_source | markdownify %}
+{% assign exp_items = exp_html | split: '<h1' %}
+
+<header class="page__header">
+    <p class="page__eyebrow">{{ page.eyebrow | default: 'Timeline' }}</p>
+    <h1 class="page__title">{{ page.title }}</h1>
+    {% if page.subtitle %}<p class="page__subtitle">{{ page.subtitle }}</p>{% endif %}
+</header>
+
+<div class="experience-body">
+    <ul class="timeline">
+      {% for item in exp_items %}
+        {% assign block = item | strip %}
+        {% if block != '' %}
+          {% assign parts = block | split: '</h1>' %}
+          {% assign heading = parts[0] | split: '>' | last | strip %}
+          {% assign detail = parts[1] | strip %}
+          {% assign org = heading %}
+          {% assign date = '' %}
+          {% assign role = '' %}
+          {% if heading contains '[' and heading contains ']' %}
+            {% assign org = heading | split: ' [' | first | strip %}
+            {% assign bracket = heading | split: '[' | last %}
+            {% assign date = bracket | split: ']' | first | strip %}
+            {% assign role = bracket | split: ']' | last | strip %}
+          {% endif %}
+          {% assign detail_parts = detail | split: '<h2' %}
+          {% assign sub_count = detail_parts | size %}
+          <li class="timeline__item" id="exp-{{ forloop.index }}">
+            {% if date != '' %}<span class="timeline__date">{{ date }}</span>{% endif %}
+            <div class="timeline__title-row"><h3 class="timeline__title"><span class="timeline__org">{{ org }}</span>{% if role != '' %}<span class="timeline__role">{{ role }}</span>{% endif %}</h3>{% if sub_count > 1 %}<button class="timeline__toggle" type="button" aria-expanded="false" aria-controls="exp-projects-{{ forloop.index }}" aria-label="Expand project experience"><svg class="timeline__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></button>{% endif %}</div>
+            {% assign intro = detail_parts[0] | strip %}{% if intro != '' %}<div class="timeline__detail">{{ intro }}</div>{% endif %}
+            {% if sub_count > 1 %}<div class="timeline__projects" id="exp-projects-{{ forloop.index }}"><div class="timeline__projects-inner"><ul class="projects">{% for sub in detail_parts offset:1 %}{% assign sub_block = sub | strip %}{% if sub_block != '' %}{% assign sub_parts = sub_block | split: '</h2>' %}<li class="project"><h4 class="project__title">{{ sub_parts[0] | split: '>' | last | strip }}</h4><div class="project__content">{{ sub_parts[1] | strip }}</div></li>{% endif %}{% endfor %}</ul></div></div>{% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+</div>
+<script src="{{ '/assets/js/experience.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>

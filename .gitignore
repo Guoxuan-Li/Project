@@ -1,0 +1,17 @@
+_site/
+node_modules/
+_site_*/
+jekyll-dev.*.log
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+*.local
+.env
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.log

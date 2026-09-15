@@ -1,0 +1,386 @@
+﻿// ════════════════════════════════════════════════════════════
+//   布局 (Site frame: header / main / footer)
+// ════════════════════════════════════════════════════════════
+
+@use "variables" as *;
+
+/* ——— 站点骨架 ——— */
+.site-main {
+  min-height: 60vh;
+  padding-block: $space-7 $space-9;
+
+  @media (max-width: 768px) {
+    padding-block: $space-6 $space-8;
+  }
+}
+
+/* ═══ 顶部导航 ═══ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--cream) 82%, transparent);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid var(--line-soft);
+  transition: background-color $dur-base $ease, border-color $dur-base $ease;
+}
+
+.site-header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-5;
+  height: 64px;
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-family: $font-serif;
+  font-weight: 600;
+  font-size: $fs-lg;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.site-header__brand:hover { text-decoration: none; }
+.site-header__brand-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sakura) 0%, var(--sora) 100%);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* theme switcher */
+.theme-controls {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 114px;
+  min-height: 32px;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.theme-auto {
+  position: relative;
+  z-index: 5;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: $font-mono;
+  font-size: $fs-xs;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color $dur-fast $ease, border-color $dur-fast $ease, color $dur-fast $ease;
+}
+.theme-auto:hover {
+  border-color: var(--ink-soft);
+  color: var(--ink);
+}
+[data-theme-mode='auto'] .theme-auto {
+  border-color: color-mix(in srgb, var(--accent, var(--sora)) 38%, var(--line));
+  background: color-mix(in srgb, var(--accent-soft, var(--sora-soft)) 48%, var(--surface));
+  color: var(--accent, var(--sora));
+}
+.theme-auto:focus-visible {
+  outline: 2px solid var(--accent, var(--sora));
+  outline-offset: 2px;
+}
+
+.site-header__actions {
+  position: absolute;
+  right: calc(-1 * clamp(0px, calc((100vw - #{$width-page}) / 4), #{$space-7}));
+  display: flex;
+  align-items: center;
+  gap: $space-6;
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: $radius-pill;
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  flex-shrink: 0;
+  cursor: pointer;
+  pointer-events: none;
+  visibility: hidden;
+  transform: translateX(-70px);
+  transform-origin: left center;
+  transition: transform $dur-base $ease-soft,
+              visibility 0s linear $dur-base,
+              background $dur-fast $ease, box-shadow $dur-fast $ease;
+}
+[data-theme-mode='manual'] .theme-toggle {
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  z-index: 0;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(0);
+  transition: transform $dur-base $ease-soft, background-color $dur-base $ease, box-shadow $dur-base $ease;
+}
+.theme-toggle[aria-pressed='true']::before { transform: translateX(28px); }
+.theme-toggle:hover {
+  background: color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent, var(--sora));
+  outline-offset: 2px;
+}
+.theme-toggle__option {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  transition: opacity $dur-fast $ease;
+}
+
+.theme-toggle__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.theme-toggle__dot--warm {
+  background: #FAF6F0;
+  box-shadow: inset 0 0 0 1.5px #D4C5B0;
+}
+.theme-toggle__dot--cool {
+  background: #1A1A1A;
+  box-shadow: inset 0 0 0 1.5px #5A5A5A;
+}
+
+/* 导航列表 */
+.site-nav__list {
+  display: flex;
+  align-items: center;
+  gap: $space-1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-nav__link {
+  display: inline-block;
+  padding: $space-2 $space-3;
+  font-size: $fs-sm;
+  color: var(--ink-soft);
+  border-radius: $radius-md;
+  position: relative;
+  transition: color $dur-fast $ease, background-color $dur-fast $ease;
+}
+.site-nav__link:hover {
+  text-decoration: none;
+  color: var(--ink);
+  background: rgba(0, 0, 0, 0.025);
+}
+
+/* 每个 tab 的 hover 使用自己的浅强调色；当前页再加深并用底边明确标记。 */
+@each $name in (sakura, sora, matcha, yuzu, sumire) {
+  .site-nav__item--#{$name} .site-nav__link:not(.site-nav__link--active):hover {
+    color: var(--#{$name}-ink);
+    background: color-mix(in srgb, var(--#{$name}) 16%, transparent);
+  }
+
+  .site-nav__item--#{$name} .site-nav__link--active {
+    color: var(--#{$name}-ink);
+    background: var(--#{$name}-soft);
+    box-shadow: inset 0 -3px 0 var(--#{$name});
+    font-weight: 600;
+  }
+}
+
+.site-nav__toggle { display: none; }
+@media (max-width: 420px) {
+  .site-header__brand-text {
+    font-size: $fs-base;
+  }
+}
+
+@media (max-width: 1100px) {
+  .site-header__actions {
+    position: static;
+    right: auto;
+    gap: $space-4;
+  }
+  .site-nav__toggle {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-md;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+ .site-nav__toggle:hover { background: rgba(0,0,0,0.04); }
+ .site-nav__toggle-bars {
+   position: relative;
+   width: 18px;
+   height: 1.5px;
+   background: var(--ink);
+  border-radius: 2px;
+  /* collapsed state: when collapsing back, fade the middle bar in after the
+     outer bars have begun separating (delay), over a short duration. */
+  transition: background $dur-fast $dur-fast $ease;
+}
+.site-nav__toggle-bars::before,
+ .site-nav__toggle-bars::after {
+   content: "";
+   position: absolute;
+   left: 0;
+   width: 18px;
+   height: 1.5px;
+   background: var(--ink);
+   border-radius: 2px;
+   transition: top $dur-base $ease, transform $dur-base $ease;
+ }
+ .site-nav__toggle-bars::before { top: -5px; }
+ .site-nav__toggle-bars::after  { top: 5px; }
+ .site-nav__list {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: $space-3 $space-5 $space-5;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity $dur-base $ease, transform $dur-base $ease;
+  }
+  .site-nav__list.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .site-nav__item { width: 100%; }
+  .site-nav__link {
+    display: block;
+    padding: $space-3 $space-4;
+    font-size: $fs-base;
+    border-radius: $radius-md;
+  }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bars {
+  background: transparent;
+  /* expanding: fade the middle bar out immediately so it's gone before the
+     outer bars converge into the X. */
+  transition: background $dur-fast $ease;
+}
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bars::before { top: 0; transform: rotate(45deg); }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bars::after  { top: 0; transform: rotate(-45deg); }
+}
+
+/* ═══ 页脚 ═══ */
+.site-footer {
+  position: relative;
+  z-index: 39;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  padding-block: $space-6;
+  color: var(--muted);
+  font-size: $fs-sm;
+  margin-top: $space-9;
+  transition: background-color $dur-base $ease, border-color $dur-base $ease, color $dur-base $ease;
+}
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr;
+  gap: $space-6;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: $space-5;
+  }
+}
+.site-footer__title {
+  font-family: $font-serif;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: $fs-base;
+  margin-bottom: 0;
+}
+.site-footer__text { line-height: $lh-relaxed; }
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3 $space-5;
+  a {
+    color: var(--ink-soft);
+    &:hover { color: var(--accent, var(--sakura)); }
+  }
+}
+.site-footer__meta {
+  text-align: right;
+  p { margin: 0; line-height: 1.7; }
+  a { color: var(--muted); }
+  a:hover { color: var(--ink); }
+
+  @media (max-width: 768px) { text-align: left; }
+}
+.site-footer__contact {
+  margin-top: $space-1;
+  color: var(--muted);
+  font-size: $fs-xs;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 $space-2;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 4.6em minmax(0, 1fr);
+    column-gap: $space-2;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+}
+.site-footer__contact-label {
+  color: var(--ink);
+  font-weight: 500;
+}
+.site-footer__contact-value {
+  color: var(--muted);
+}
+.site-footer__built { color: var(--muted); }

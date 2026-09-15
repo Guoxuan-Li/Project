@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<article class="post" role="article">
+  <header class="post__header">
+    <p class="post__eyebrow">{{ page.eyebrow | default: 'Writing' }}</p>
+    <h1 class="post__title">{{ page.title }}</h1>
+    {% if page.subtitle %}<p class="post__subtitle">{{ page.subtitle }}</p>{% endif %}
+    <div class="post__meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y-%m-%d' }}</time>
+      {% if page.location %}<span class="post__meta-dot" aria-hidden="true">.</span><span>{{ page.location }}</span>{% endif %}
+    </div>
+  </header>
+  <div class="prose post__body">{{ content }}</div>
+  {% if page.collection == 'posts' %}
+    <footer class="post__footer">
+      <a href="{{ '/posts/' | relative_url }}" class="post__back">&larr; Back to journal</a>
+    </footer>
+  {% endif %}
+</article>

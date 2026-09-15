@@ -1,0 +1,101 @@
+// ════════════════════════════════════════════════════════════
+//   设计令牌 (Design Tokens)
+//   —— 柔和二次元配色 · 简约 · 中英双字体可读性优先
+// ════════════════════════════════════════════════════════════
+
+// —— 中性色 ————————————————————————————————————————————————
+$cream:     #FAF6F0;   // 站点背景（暖米白，像纸张）
+$surface:   #FFFFFF;   // 卡片表面
+$surface-2: #F5EFE7;   // 次级表面（引用块、代码块底色）
+$line:      #ECE3D9;   // 主分隔线
+$line-soft: #F3ECE2;   // 浅分隔线
+
+$ink:       #2E2A28;   // 主文字（暖墨色）
+$ink-soft:  #5C5450;   // 次级文字
+$muted:     #9A9088;   // 弱化文字（meta、说明）
+
+// —— 强调色 ————————————————————————————————————————————————
+//   五个柔和的二次元色，每个都有 -soft 浅色版本用于底色块
+//   不同的 tab 复用不同的强调色，让每个分区有自己的气息
+
+$sakura:       #E89CAB;
+$sakura-soft:  #FBE4E9;
+$sakura-ink:   #B65C6E;   // 强调色用作文字时的深色版（保证对比度）
+
+$sora:         #9DC1E0;
+$sora-soft:    #E7F0F8;
+$sora-ink:     #3E6F9C;
+
+$matcha:       #A6CFA8;
+$matcha-soft:  #E8F1E9;
+$matcha-ink:   #4F8454;
+
+$yuzu:         #E8B85C;
+$yuzu-soft:    #FAEFD4;
+$yuzu-ink:     #8B6510;
+
+$sumire:       #B8A8D4;
+$sumire-soft:  #EFE9F6;
+$sumire-ink:   #7867A0;
+
+// 把强调色映射为 CSS 自定义属性，在 :root 中导出
+// 这样每个页面可以单独设置 --accent，让导航/链接染色
+
+// —— 字体 ————————————————————————————————————————————————————
+$font-serif: "Noto Serif SC", "Songti SC", "STZhongsong", "SimSun", serif;
+$font-sans:  "Noto Sans SC", -apple-system, BlinkMacSystemFont,
+              "PingFang SC", "Microsoft YaHei", sans-serif;
+$font-mono:  ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+// —— 字号刻度（fluid，移动端自动缩小）—————————————————————
+$fs-xs:   0.75rem;
+$fs-sm:   0.875rem;
+$fs-base: 1rem;
+$fs-lg:   1.125rem;
+$fs-xl:   1.25rem;
+$fs-2xl:  clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);
+$fs-3xl:  clamp(1.75rem, 1.5rem + 1vw, 2rem);
+$fs-4xl:  clamp(2.25rem, 1.85rem + 2vw, 2.75rem);
+$fs-5xl:  clamp(2.75rem, 2.1rem + 3vw, 3.75rem);
+
+// —— 行高 ————————————————————————————————————————————————
+$lh-tight:   1.2;
+$lh-snug:    1.35;
+$lh-normal:  1.55;
+$lh-relaxed: 1.8;
+
+// —— 间距 ————————————————————————————————————————————————
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.5rem;
+$space-6: 2rem;
+$space-7: 3rem;
+$space-8: 4rem;
+$space-9: 6rem;
+
+// —— 圆角 ————————————————————————————————————————————————
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 12px;
+$radius-xl: 18px;
+$radius-pill: 999px;
+
+// —— 阴影（极轻，只为分层服务）————————————————————————————
+$shadow-xs: 0 1px 2px rgba(46, 42, 40, 0.04);
+$shadow-sm: 0 1px 3px rgba(46, 42, 40, 0.05), 0 1px 2px rgba(46, 42, 40, 0.03);
+$shadow-md: 0 4px 12px rgba(46, 42, 40, 0.06);
+$shadow-lg: 0 10px 28px rgba(46, 42, 40, 0.08);
+
+// —— 容器宽度 ——————————————————————————————————————————————
+$width-page:    1080px;
+$width-prose:   720px;
+$width-narrow:  560px;
+
+// —— 过渡 ————————————————————————————————————————————————
+$ease:        cubic-bezier(0.4, 0, 0.2, 1);
+$ease-soft:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$dur-fast:    120ms;
+$dur-base:    220ms;
+$dur-slow:    400ms;

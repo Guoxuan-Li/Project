@@ -1,0 +1,64 @@
+---
+layout: default
+title: Guestbook
+section: message
+accent: matcha
+permalink: /message/
+description: Leave a message, or see what others have written.
+---
+
+<header class="listing-header message-header">
+    <p class="listing-header__eyebrow">Guestbook</p>
+    <h1 class="listing-header__title">Leave a message here</h1>
+    <p class="listing-header__desc">Leave your memories here.</p>
+</header>
+
+<div class="message-layout" data-guestbook-likes="{{ site.features.guestbook_likes }}">
+  <form class="message-form" id="message-form" novalidate>
+    <div class="message-form__row">
+      <label class="message-field">
+        <span>Your name</span>
+        <input id="message-name" name="name" type="text" maxlength="40" autocomplete="name" required>
+      </label>
+      <button class="message-contact-toggle" id="message-contact-toggle" type="button"
+              aria-expanded="false" aria-controls="message-contact-panel">
+        <span aria-hidden="true">+</span><span>Contact</span>
+      </button>
+      <div class="message-contact-panel" id="message-contact-panel" aria-hidden="true">
+        <div class="message-contact-panel__label">
+          <label for="message-contact">Contact <small>optional</small></label>
+          <label class="message-contact-public">
+            <input id="message-public-contact" name="public_contact" type="checkbox" value="true" tabindex="-1">
+            <span>Show publicly</span>
+          </label>
+        </div>
+        <input class="message-contact-input" id="message-contact" name="contact" type="text" maxlength="120"
+               placeholder="Email, social, or other" tabindex="-1">
+        <p class="message-contact-privacy" id="message-contact-privacy" aria-live="polite">
+          Contact info will never be exposed
+        </p>
+      </div>
+    </div>
+    <label class="message-field">
+      <span>Your message</span>
+      <textarea id="message-content" name="content" rows="5" maxlength="1000" required></textarea>
+    </label>
+    <label class="message-trap" aria-hidden="true">Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label>
+    <div class="message-form__footer">
+      <p class="message-form__status" id="message-form-status" role="status" aria-live="polite"></p>
+      <button class="message-submit" type="submit">Send message</button>
+    </div>
+  </form>
+  <section class="message-list-section" aria-labelledby="message-list-title">
+    <div class="message-list__heading">
+      <h2 id="message-list-title">Messages</h2>
+      <span id="message-count" aria-live="polite"></span>
+    </div>
+    <div class="message-list" id="message-list" aria-live="polite" aria-busy="true">
+      <p class="message-list__notice">Loading messages...</p>
+    </div>
+  </section>
+</div>
+
+{% if site.data.guestbook_sample %}<script type="application/json" id="guestbook-sample">{{ site.data.guestbook_sample | jsonify }}</script>{% endif %}
+<script src="{{ '/assets/js/message.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>

@@ -1,0 +1,25 @@
+{
+  "stories": [
+    {
+      "slug": "last-train",
+      "title": "The Last Train North",
+      "description": "A station clock stops, but one train keeps moving.",
+      "likes": 12,
+      "nodes": [
+        {"id":"root","parent_id":null,"title":"Platform Zero","author":"Mira","content":"At 00:17 every clock in the station stopped. Only the departure board continued to turn, spelling a destination that did not exist on any map."},
+        {"id":"snow","parent_id":"root","title":"Follow the snow","author":"Jon","content":"Snow drifted through the open carriage without melting. On each seat lay a postcard addressed in the passenger's own handwriting."},
+        {"id":"signal","parent_id":"root","title":"Ask the signal keeper","author":"Aya","content":"The signal keeper carried no lamp, only a jar filled with summer light. He said the train arrived whenever someone finally chose to leave."},
+        {"id":"postcard","parent_id":"snow","title":"Read the postcard","author":"Noor","content":"The card described tomorrow with unnerving precision, ending one sentence before the choice she now had to make."}
+      ]
+    },
+    {
+      "slug": "glass-garden",
+      "title": "The Glass Garden",
+      "description": "Every plant remembers the voice that named it.",
+      "likes": 8,
+      "nodes": [
+        {"id":"root-2","parent_id":null,"title":"A borrowed key","author":"Eli","content":"The greenhouse had been locked for thirty years. Still, every Thursday, someone left a warm cup of tea beside its door."}
+      ]
+    }
+  ]
+}

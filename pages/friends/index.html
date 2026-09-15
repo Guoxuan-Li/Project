@@ -1,0 +1,42 @@
+---
+layout: default
+title: 亲友
+section: friends
+accent: sora
+permalink: /friends/
+description: 在网络的一角，拜访熟悉的朋友。
+---
+
+<main class="friend-page container">
+  <header class="friend-hero">
+    <p class="tide-eyebrow"><span class="tide-dot"></span> FRIENDS AROUND THE WEB</p>
+    <h1>去亲友家串门</h1>
+    <p>从我的小岛出发，沿着链接去看看朋友们的世界。</p>
+  </header>
+
+  {% assign friends = site.data.friends | default: empty %}
+  <section class="friend-grid" aria-label="亲友网站">
+    {% for friend in friends %}
+      {% if friend.url %}
+        <a class="friend-card" href="{{ friend.url | escape }}" target="_blank" rel="noopener noreferrer">
+          <span class="friend-card__cat" aria-hidden="true">
+            <svg viewBox="0 0 76 70" role="img"><path d="M18 28 14 9l18 11c4-1 8-1 12 0L62 9l-4 20c5 5 8 11 8 18 0 14-12 21-28 21S10 61 10 47c0-7 3-14 8-19Z" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M28 45h1m18 0h1" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M34 53c3 3 5 3 8 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </span>
+          <span class="friend-card__copy">
+            <small>FRIEND · 朋友</small>
+            <strong>{{ friend.name | escape }}</strong>
+            <span>{{ friend.url | replace: 'https://', '' | replace: 'http://', '' | replace: '/', '' }}</span>
+          </span>
+          <span class="friend-card__arrow" aria-hidden="true">↗</span>
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    <div class="friend-card friend-card--empty">
+      <span class="friend-card__spark" aria-hidden="true">✧</span>
+      <span class="friend-card__copy"><small>NEXT STOP</small><strong>等待下一位朋友</strong><span>这里还留着一个位置</span></span>
+    </div>
+  </section>
+
+  <p class="friend-note">外部链接会在新窗口打开。每一个小站，都是朋友认真生活的痕迹。</p>
+</main>

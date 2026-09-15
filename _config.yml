@@ -1,0 +1,85 @@
+title: X_GX_H
+tagline: 走走停停，和世界慢慢熟悉。
+description: X_GX_H 的个人小站。收藏城市足迹、小动物、手作与沿途美食。
+baseurl: ""
+url: ""
+author:
+  name: X_GX_H
+  email: ""
+  github: ""
+lang: zh-CN
+palette: tide
+theme: null
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  auto_ids: true
+permalink: /posts/:title/
+features:
+  posts: false
+  home_stats: false
+  guestbook: false
+  guestbook_likes: false
+  story_tree: false
+  travel_rankings: false
+backend:
+  mode: demo
+  api_base: /api
+collections_dir: content
+plugins:
+  - jekyll-feed
+collections:
+  about: {output: false}
+  experience: {output: false}
+  travels: {output: false}
+  books: {output: false}
+  writing: {output: false}
+  recipes: {output: false}
+  animals: {output: false}
+  crafts: {output: false}
+  foods: {output: false}
+defaults:
+  - scope: {path: "", type: pages}
+    values: {layout: page, lang: zh-CN}
+  - scope: {path: "", type: posts}
+    values: {layout: post, lang: zh-CN, section: posts, published: false}
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - package.json
+  - package-lock.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - scripts/
+  - README.md
+  - README-原模板.md
+  - LICENSE
+  - .sass-cache/
+  - .jekyll-cache/
+  - vendor/
+  - migrations/
+  - functions/
+  - wrangler.toml
+  - pages/bookshelf/
+  - pages/experience/
+  - pages/message/
+  - pages/posts/
+  - pages/recipes/
+  - pages/writing/
+  - sample_data/content/_posts/
+  - content/_posts/
+sass:
+  style: compressed
+  sass_dir: _sass
+logo: /assets/favicon.svg
+nav:
+  - {key: home, label: 首页, path: /, accent: sora}
+  - {key: travels, label: 旅行地图, path: /travels/, accent: matcha}
+  - {key: food, label: 美食, path: /food/, accent: yuzu}
+  - {key: animals, label: 小动物, path: /animals/, accent: sora}
+  - {key: crafts, label: 手作物, path: /crafts/, accent: matcha}
+  - {key: friends, label: 亲友, path: /friends/, accent: sora}
+  - {key: about, label: 关于我, path: /about/, accent: sora}

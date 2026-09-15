@@ -1,0 +1,52 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    (function () {
+      var theme = localStorage.getItem("theme");
+      if (!theme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) theme = "cool";
+      if (theme === "cool") document.documentElement.dataset.theme = "cool";
+      document.documentElement.dataset.themeMode = localStorage.getItem("theme") ? "manual" : "auto";
+      {% if page.section == 'writing' %}
+      var writingTab = localStorage.getItem("writing-active-tab");
+      document.documentElement.dataset.writingView = writingTab === "chain" ? "chain" : "finished";
+      {% endif %}
+    }());
+  </script>
+  <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+
+  {% if page.description %}
+    {% assign page_description = page.description %}
+  {% else %}
+    {% assign page_description = site.description %}
+  {% endif %}
+
+  <title>
+    {% assign t = page.title | strip %}
+    {% if t != "" %}{{ t }} . {{ site.title }}{% else %}{{ site.title }}{% endif %}
+  </title>
+  <meta name="description" content="{{ page_description | strip_html | strip_newlines | truncate: 160 }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}">
+  <link rel="stylesheet" href="{{ '/assets/css/tide.css' | relative_url }}">
+
+  {% if page.accent %}
+    <style>:root { --accent: var(--{{ page.accent }}); --accent-soft: var(--{{ page.accent }}-soft); }</style>
+  {% else %}
+    <style>:root { --accent: var(--sakura); --accent-soft: var(--sakura-soft); }</style>
+  {% endif %}
+
+  {% feed_meta %}
+
+  <meta property="og:type" content="{{ page.og_type | default: 'website' }}">
+  <meta property="og:title" content="{{ t | default: site.title }}">
+  <meta property="og:description" content="{{ page_description | strip_html | truncate: 160 }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  {% if page.url %}<meta property="og:url" content="{{ page.url | absolute_url }}">{% endif %}
+  <meta name="twitter:card" content="summary">
+</head>

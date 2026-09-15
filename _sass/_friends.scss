@@ -1,0 +1,137 @@
+@use "variables" as *;
+
+.friend-network {
+  position: relative;
+  width: 100%;
+  height: clamp(430px, 62vw, 650px);
+  margin-top: $space-6;
+  overflow: hidden;
+  background: transparent;
+}
+
+.friend-network__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+}
+
+.friend-bubble {
+  --bubble-color: #{var(--sora)};
+  --bubble-soft: #{var(--sora-soft)};
+  --bubble-ink: #{var(--sora-ink)};
+  position: absolute;
+  z-index: 1;
+  display: block;
+  width: clamp(76px, 11vw, 112px);
+  aspect-ratio: 1;
+  padding: $space-2;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: transparent;
+  font-family: $font-sans;
+  font-size: $fs-base;
+  font-weight: 500;
+  line-height: $lh-snug;
+  text-align: center;
+  box-shadow: none;
+  cursor: pointer;
+  transition: none;
+
+  &:hover,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.friend-bubble--person {
+  will-change: left, top;
+}
+
+.friend-bubble[hidden] {
+  display: none;
+}
+
+.friend-bubble--sora {
+  --bubble-color: #{var(--sora)}; --bubble-soft: #{var(--sora-soft)}; --bubble-ink: #{var(--sora-ink)};
+}
+.friend-bubble--matcha {
+  --bubble-color: #{var(--matcha)}; --bubble-soft: #{var(--matcha-soft)}; --bubble-ink: #{var(--matcha-ink)};
+}
+.friend-bubble--yuzu {
+  --bubble-color: #{var(--yuzu)}; --bubble-soft: #{var(--yuzu-soft)}; --bubble-ink: #{var(--yuzu-ink)};
+}
+.friend-bubble--sumire {
+  --bubble-color: #{var(--sumire)}; --bubble-soft: #{var(--sumire-soft)}; --bubble-ink: #{var(--sumire-ink)};
+}
+
+
+.friend-bubble--self {
+  --bubble-color: #{var(--sakura)};
+  --bubble-soft: #{var(--sakura-soft)};
+  --bubble-ink: #{var(--sakura-ink)};
+  z-index: 20;
+  width: clamp(96px, 14vw, 138px);
+  cursor: pointer;
+  will-change: left, top;
+}
+
+.friend-network__hint {
+  margin-top: $space-3;
+  color: var(--muted);
+  font-size: $fs-sm;
+  text-align: center;
+}
+
+.friend-toast {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  bottom: $space-6;
+  max-width: calc(100vw - 2rem);
+  padding: $space-3 $space-5;
+  transform: translateY(6px);
+  border: 1px solid color-mix(in srgb, var(--hint-accent, #{var(--sora)}) 52%, transparent);
+  border-radius: $radius-pill;
+  background: color-mix(in srgb, var(--hint-soft, #{var(--sora-soft)}) 92%, white);
+  color: var(--hint-ink, #{var(--sora-ink)});
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transition: opacity $dur-base $ease, transform $dur-base $ease;
+
+  &--show { opacity: 1; transform: translateY(0); }
+}
+
+.friends-empty {
+  min-height: 360px;
+  display: grid;
+  place-content: center;
+  gap: $space-3;
+  color: var(--muted);
+  text-align: center;
+
+  span { color: var(--sora); font-size: 3rem; }
+  p { margin: 0; font-family: $font-serif; font-size: $fs-xl; }
+}
+
+@media (max-width: 560px) {
+  .friend-network {
+    height: 430px;
+
+    &--switching .friend-bubble--person {
+      pointer-events: none;
+    }
+  }
+  .friend-bubble {
+    width: 72px;
+    font-size: $fs-sm;
+  }
+  .friend-bubble--self {
+    width: 96px;
+    touch-action: manipulation;
+  }
+}

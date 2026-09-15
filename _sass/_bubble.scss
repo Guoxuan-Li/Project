@@ -1,0 +1,276 @@
+@use "variables" as *;
+
+/* === 涓栫晫鍦板浘 SVG === */
+
+/* === 鏃呰抗椤甸潰鍔犺浇閬僵 === */
+.travel-page-loading {
+  position: fixed;
+  z-index: 40;
+  inset: 64px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+.travel-page-loading--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.travel-page-loading__inner {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.travel-page-loading__spinner {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 12px;
+  border: 3px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: travel-spin 0.7s linear infinite;
+}
+@keyframes travel-spin {
+  to { transform: rotate(360deg); }
+}
+.travel-worldmap__country {
+  fill: var(--surface-2);
+  stroke: color-mix(in srgb, var(--sakura-ink) 13%, transparent);
+  stroke-width: 0.45;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transition: fill 0.2s $ease;
+}
+.travel-worldmap__country--visited {
+  fill: var(--sakura);
+  &:hover { fill: var(--sakura-ink); }
+}
+.travel-worldmap__marker {
+  fill: color-mix(in srgb, var(--muted) 50%, transparent);
+  stroke: color-mix(in srgb, var(--muted) 46%, transparent);
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
+  cursor: help;
+  filter: drop-shadow(0 0.7px 1px color-mix(in srgb, var(--ink) 10%, transparent));
+}
+.travel-worldmap__marker--visited {
+  fill: var(--sumire);
+  stroke: var(--sumire-ink);
+  cursor: pointer;
+  &:hover { fill: color-mix(in srgb, var(--sumire) 75%, var(--sumire-ink)); }
+}
+
+/* === 旅行地图视口 === */
+.travel-map-viewport {
+  flex: 2;
+  align-self: center;
+  overflow: hidden;
+  // cursor: grab;
+  position: relative;
+  border-radius: $radius-md;
+  background: var(--surface);
+  min-height: 280px;
+  user-select: none;
+  @media (max-width: 640px) {
+    flex: none;
+    align-self: stretch;
+    width: 100%;
+    min-width: 0;
+    min-height: 200px;
+    border-radius: 0;
+  }
+  @media (max-width: 420px) {
+    min-height: 160px;
+  }
+}
+.travel-map-canvas {
+  transform-origin: 0 0;
+  & svg { display: block; }
+}
+.travel-map-reset {
+  position: absolute;
+  top: $space-3;
+  right: $space-3;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--sakura-ink) 18%, transparent);
+  border-radius: $radius-sm;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--sakura-ink);
+  font: 600 22px/1 $font-sans;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: opacity 0.2s $ease, background 0.2s $ease;
+
+  &:hover { background: var(--surface); }
+  &[hidden] { display: none; }
+
+  & > svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.travel-map-reset--bubble {
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  border-color: color-mix(in srgb, var(--sakura-ink) 24%, transparent);
+  transition: transform 0.18s $ease-soft, border-color 0.18s $ease,
+              background 0.18s $ease, color 0.18s $ease, box-shadow 0.18s $ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--sakura-ink) 42%, transparent);
+    background: var(--sakura-soft);
+    color: var(--sakura-ink);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+/* === 旅行地图布局布局 === */
+.travel-map-layout {
+  display: flex;
+  gap: $space-4;
+  @media (max-width: 640px) {
+    gap: $space-3;
+  }
+  align-items: stretch;
+  @media (max-width: 640px) { flex-direction: column; }
+}
+
+/* === 旅行地图气泡云 === */
+.travel-bubble-cloud {
+  position: relative;
+  flex: 1;
+  flex-shrink: 0;
+  min-width: 180px;
+  @media (max-width: 640px) {
+    flex: none;
+    min-width: 0;
+    min-height: 220px;
+    border-radius: 0;
+  }
+  overflow: hidden;
+  // cursor: grab;
+  border-radius: $radius-md;
+  background: var(--surface);
+  user-select: none;
+}
+.travel-bubble-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+.travel-bubble {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  padding: 4px;
+
+  border-radius: 50%;
+  text-align: center;
+  background: var(--sakura-soft);
+  color: var(--sakura-ink);
+  font-family: $font-sans;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s $ease-soft, background 0.2s $ease;
+  &:hover {
+    background: var(--sakura);
+    color: var(--surface);
+    z-index: 10;
+  }
+}
+.travel-bubble__label {
+  display: block;
+  width: 80%;
+  text-align: center;
+  line-height: 1.2;
+}
+
+[data-theme="cool"] {
+  .travel-worldmap__country--visited {
+    fill: #6F3D45;
+    stroke: #8A5961;
+
+    &:hover { fill: #8C4E58; }
+  }
+
+  .travel-worldmap__marker--visited {
+    fill: color-mix(in srgb, var(--sumire) 62%, var(--cream));
+    stroke: var(--sumire-ink);
+  }
+
+  .travel-bubble {
+    background: #58343B;
+    border: 1px solid #754750;
+    color: #E8C8CD;
+
+    &:hover {
+      background: #74434C;
+      color: #F1D9DD;
+    }
+  }
+}
+
+/* === 旅行地图提示词 === */
+.travel-map-hint {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $fs-sm;
+  color: var(--muted);
+  text-align: center;
+  padding: $space-5;
+}
+
+/* === 旅行地图提示框 === */
+.travel-map-tooltip {
+  position: fixed;
+  z-index: 1200;
+  max-width: min(320px, calc(100vw - 24px));
+  display: grid;
+  gap: 4px;
+  padding: $space-2 $space-3;
+  border: 1px solid color-mix(in srgb, var(--sakura-ink) 18%, transparent);
+  border-radius: $radius-md;
+  background: color-mix(in srgb, var(--surface) 50%, transparent);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  color: var(--ink-soft);
+  font-size: $fs-xs;
+  line-height: $lh-snug;
+
+  &[hidden] { display: none; }
+  strong {
+    color: var(--sakura-ink);
+    font-size: $fs-sm;
+  }
+  &--unvisited strong {
+    color: var(--muted);
+  }
+}

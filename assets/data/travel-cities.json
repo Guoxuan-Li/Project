@@ -1,0 +1,12 @@
+[
+  {"name":"北京 Beijing","search":"北京","country":"中国","domestic":true,"lat":39.9042,"lon":116.4074,"note":"胡同与晚风"},
+  {"name":"上海 Shanghai","search":"上海","country":"中国","domestic":true,"lat":31.2304,"lon":121.4737,"note":"江边与街角"},
+  {"name":"成都 Chengdu","search":"成都","country":"中国","domestic":true,"lat":30.5728,"lon":104.0668,"note":"茶馆与小吃"},
+  {"name":"杭州 Hangzhou","search":"杭州","country":"中国","domestic":true,"lat":30.2741,"lon":120.1551,"note":"湖水与山色"},
+  {"name":"巴黎 Paris","search":"巴黎","country":"法国","domestic":false,"lat":48.8566,"lon":2.3522,"note":"运河与面包店","labelDx":-48,"labelDy":-14},
+  {"name":"里昂 Lyon","search":"里昂","country":"法国","domestic":false,"lat":45.764,"lon":4.8357,"note":"旧城与雨","labelDx":-42,"labelDy":25},
+  {"name":"东京 Tokyo","search":"东京","country":"日本","domestic":false,"lat":35.6762,"lon":139.6503,"note":"列车与街角","labelDx":12,"labelDy":-14},
+  {"name":"京都 Kyoto","search":"京都","country":"日本","domestic":false,"lat":35.0116,"lon":135.7681,"note":"河边与清晨","labelDx":-44,"labelDy":25},
+  {"name":"博洛尼亚 Bologna","search":"博洛尼亚","country":"意大利","domestic":false,"lat":44.4949,"lon":11.3426,"note":"拱廊与雨","labelDx":12,"labelDy":-15},
+  {"name":"佛罗伦萨 Florence","search":"佛罗伦萨","country":"意大利","domestic":false,"lat":43.7696,"lon":11.2558,"note":"桥与黄昏","labelDx":12,"labelDy":26}
+]

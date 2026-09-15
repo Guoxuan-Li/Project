@@ -1,0 +1,27 @@
+{
+  "stories": [
+    {
+      "id": "last-train",
+      "slug": "last-train",
+      "title": "The Last Train North",
+      "preview": "A station clock stops, but one train keeps moving.",
+      "likes": 12,
+      "nodes": [
+        {"id":"root","fragment_id":"10001","parent_id":null,"title":"Platform Zero","author_name":"Mira","content":"At 00:17 every clock in the station stopped. Only the departure board continued to turn, spelling a destination that did not exist on any map.","likes":2,"is_leaf":0,"created_at":"2026-01-01T00:17:00Z","updated_at":"2026-01-01T00:17:00Z"},
+        {"id":"snow","fragment_id":"10002","parent_id":"root","title":"Follow the snow","author_name":"Jon","content":"Snow drifted through the open carriage without melting. On each seat lay a postcard addressed in the passenger's own handwriting.","likes":1,"is_leaf":0,"created_at":"2026-01-02T10:00:00Z","updated_at":"2026-01-02T10:00:00Z"},
+        {"id":"signal","fragment_id":"10003","parent_id":"root","title":"Ask the signal keeper","author_name":"Aya","content":"The signal keeper carried no lamp, only a jar filled with summer light. He said the train arrived whenever someone finally chose to leave.","likes":3,"is_leaf":1,"branch_title":"The Jar of Summer","created_at":"2026-01-03T10:00:00Z","updated_at":"2026-01-03T10:00:00Z"},
+        {"id":"postcard","fragment_id":"10004","parent_id":"snow","title":"Read the postcard","author_name":"Noor","content":"The card described tomorrow with unnerving precision, ending one sentence before the choice she now had to make.","likes":4,"is_leaf":1,"branch_title":"One Sentence Before Tomorrow","created_at":"2026-01-04T10:00:00Z","updated_at":"2026-01-04T10:00:00Z"}
+      ]
+    },
+    {
+      "id": "glass-garden",
+      "slug": "glass-garden",
+      "title": "The Glass Garden",
+      "preview": "Every plant remembers the voice that named it.",
+      "likes": 8,
+      "nodes": [
+        {"id":"root-2","fragment_id":"10005","parent_id":null,"title":"A borrowed key","author_name":"Eli","content":"The greenhouse had been locked for thirty years. Still, every Thursday, someone left a warm cup of tea beside its door.","likes":2,"is_leaf":0,"created_at":"2026-02-01T09:00:00Z","updated_at":"2026-02-01T09:00:00Z"}
+      ]
+    }
+  ]
+}

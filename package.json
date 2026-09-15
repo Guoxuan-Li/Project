@@ -1,0 +1,12 @@
+{
+  "name": "manman-personal-blog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": { "liquidjs": "^10.21.0", "marked": "^15.0.0", "sass": "^1.89.0", "yaml": "^2.8.0" }
+}

@@ -1,0 +1,18 @@
+---
+layout: default
+title: Journal
+section: posts
+permalink: /posts/
+---
+
+<header class="listing-header">
+  <p class="listing-header__eyebrow">Journal</p>
+  <h1 class="listing-header__title">Notes from along the way</h1>
+  <p class="listing-header__desc">Essays, observations, and small discoveries.</p>
+</header>
+
+{% assign pinned = site.posts | where: "pinned", true %}{% assign regular = site.posts | where_exp: "post", "post.pinned != true" %}{% assign posts = pinned | concat: regular %}
+{% if posts.size == 0 %}<div class="empty-state"><div class="empty-state__icon">&#8709;</div><p>Nothing here yet.</p></div>{% else %}
+<div class="post-toolbar"><div class="post-search-row"><details class="post-search-scope" id="post-search-scope"><summary><strong id="post-search-scope-label">All</strong></summary><div class="post-search-scope__menu"><p>Search in</p><label><input type="checkbox" value="title" data-post-search-scope checked> Title</label><label><input type="checkbox" value="tag" data-post-search-scope checked> Tags</label><label><input type="checkbox" value="body" data-post-search-scope checked> Body</label><div class="post-search-scope__actions"><button type="button" data-post-scope-action="all">Select all</button><button type="button" data-post-scope-action="none">Select none</button></div></div></details><div class="post-search" role="search"><input class="post-search__input" id="post-search-input" type="search" placeholder="Search articles..." autocomplete="off" aria-label="Search journal"></div></div><div class="post-search__status" aria-live="polite"><p class="post-search__count" id="post-search-count">{{ posts.size }} articles</p></div></div>
+<div class="post-list post-accordion">{% for post in posts %}{% if post.pinned %}{% include post-card.html post=post %}{% endif %}{% endfor %}{% for post in posts %}{% unless post.pinned %}{% include post-card.html post=post %}{% endunless %}{% endfor %}</div>
+<script src="{{ '/assets/js/writing.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>{% endif %}

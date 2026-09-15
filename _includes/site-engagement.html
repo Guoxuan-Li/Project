@@ -1,0 +1,9 @@
+<aside class="site-engagement home-stats" data-engagement aria-label="Site activity">
+  <button class="site-engagement__like home-stats__like" type="button" data-site-like aria-label="Like this site">
+    <svg class="home-stats__heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.7c0 5.3-8.8 10.1-8.8 10.1S3.2 14 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3Z"/></svg>
+  </button>
+  <span class="site-engagement__like-count home-stats__like-count"><strong data-like-count>0</strong></span>
+  <span class="site-engagement__visits home-stats__visits"><strong data-visit-count>0</strong> visits</span>
+</aside>
+{% if site.data.engagement_sample %}<script type="application/json" id="engagement-sample">{{ site.data.engagement_sample | jsonify }}</script>{% endif %}
+<script src="{{ '/assets/js/engagement.js' | relative_url }}" defer></script>

@@ -1,0 +1,190 @@
+﻿// ════════════════════════════════════════════════════════════
+//   基础样式 (Reset + Base typography)
+// ════════════════════════════════════════════════════════════
+
+@use "variables" as *;
+
+/* ——— 现代 reset ——— */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+  transition: background-color $dur-base $ease, color $dur-base $ease;
+}
+html:focus-within { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-family: $font-sans;
+  font-size: $fs-base;
+  line-height: $lh-normal;
+  color: var(--ink);
+  background-color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "palt" 1;
+  transition: background-color $dur-base $ease, color $dur-base $ease;
+}
+
+body::before {
+  // 极浅的纸张纹理，让米色背景更柔和、不空
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(900px 600px at 8% -5%, color-mix(in srgb, var(--sakura) 6%, transparent), transparent 60%),
+    radial-gradient(800px 500px at 100% 0%, color-mix(in srgb, var(--sora) 6%, transparent), transparent 55%);
+}
+
+img, picture, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input, button, textarea, select { font: inherit; color: inherit; }
+input, textarea, select { min-width: 0; max-width: 100%; }
+button { background: none; border: none; cursor: pointer; padding: 0; }
+
+a {
+  color: var(--accent, var(--sakura));
+  text-decoration: none;
+  transition: color $dur-fast $ease;
+}
+a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:focus-visible {
+  outline: 2px solid var(--accent, var(--sakura));
+  outline-offset: 3px;
+  border-radius: $radius-sm;
+}
+
+ul, ol { padding-left: 1.25em; }
+
+/* ——— 字号与排版基础 ——— */
+h1, h2, h3, h4, h5, h6 {
+  max-width: 100%;
+  font-family: $font-serif;
+  font-weight: 600;
+  line-height: $lh-tight;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+p { line-height: $lh-relaxed; }
+
+strong, b { font-weight: 700; color: var(--ink); }
+
+em, i { font-style: italic; }
+
+small { font-size: $fs-sm; color: var(--muted); }
+
+code, kbd, samp, pre {
+  font-family: $font-mono;
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  background: var(--surface-2);
+  padding: 0.1em 0.4em;
+  border-radius: $radius-sm;
+  color: var(--ink);
+  font-size: 0.875em;
+}
+
+pre {
+  background: var(--surface-2);
+  padding: $space-4;
+  border-radius: $radius-md;
+  overflow-x: auto;
+  line-height: $lh-normal;
+  border: 1px solid var(--line-soft);
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: pre;
+}
+
+pre code { overflow-wrap: normal; word-break: normal; white-space: inherit; }
+
+hr {
+  border: none;
+  height: 1px;
+  background: var(--line);
+  margin: $space-6 0;
+}
+
+blockquote {
+  border-left: 3px solid var(--accent, var(--sakura));
+  padding: 0.2em 0 0.2em 1.2em;
+  margin: $space-5 0;
+  color: var(--ink-soft);
+  font-family: $font-serif;
+  font-size: 1.05em;
+  line-height: $lh-relaxed;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $fs-sm;
+  margin: $space-5 0;
+}
+th, td {
+  text-align: left;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  padding: $space-2 $space-3;
+  border-bottom: 1px solid var(--line);
+}
+th {
+  font-weight: 600;
+  font-family: $font-serif;
+  color: var(--ink);
+}
+
+/* ——— 工具类 ——— */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: $width-page;
+  margin-inline: auto;
+  padding-inline: $space-5;
+}
+
+/* 容器宽窄修饰符：需要时在 .container 上加 modifier 类
+   .container--prose   阅读/正文宽度（720px）
+   .container--narrow  窄栏（560px，比如引用页）   */
+.container--prose   { max-width: $width-prose; }
+.container--narrow  { max-width: $width-narrow; }
+
+@media (max-width: 640px) {
+  .container { padding-inline: $space-4; }
+}
+
+::selection {
+  background: var(--accent-soft, var(--sakura-soft));
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

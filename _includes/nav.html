@@ -1,0 +1,25 @@
+<a class="tide-skip" href="#main">跳到主要内容</a>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title | escape }} 首页">
+      <span class="tide-brand-cat">{% include tide-icon.html icon="cat" %}</span>
+      <span class="site-header__brand-text">{{ site.title | escape }}<small>走走 · 停停</small></span>
+    </a>
+    <div class="site-header__actions">
+      <nav class="site-nav" aria-label="主导航">
+        <button class="site-nav__toggle" aria-expanded="false" aria-controls="site-nav__list"><span class="sr-only">打开导航菜单</span><span class="site-nav__toggle-bars"></span></button>
+        <ul class="site-nav__list" id="site-nav__list">
+        {% for item in site.nav %}
+          <li class="site-nav__item site-nav__item--{{ item.accent }}"><a href="{{ item.path | relative_url }}" class="site-nav__link{% if page.section == item.key %} site-nav__link--active{% endif %}"{% if page.section == item.key %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        {% endfor %}
+        </ul>
+      </nav>
+      <div class="theme-controls">
+        <button class="theme-auto" type="button" aria-label="切换自动配色" aria-pressed="true" title="跟随系统配色">自动</button>
+        <button class="theme-toggle" type="button" aria-label="切换深浅配色" aria-pressed="false" aria-hidden="true">
+          <span class="theme-toggle__option"><span class="theme-toggle__dot theme-toggle__dot--warm"></span></span><span class="theme-toggle__option"><span class="theme-toggle__dot theme-toggle__dot--cool"></span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

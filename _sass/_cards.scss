@@ -1,0 +1,300 @@
+@use "variables" as *;
+
+// ════════════════════════════════════════════════════════════
+//   Card grid + expansion styles (prefix-agnostic)
+//
+//   Two expansion modes:
+//   - Row mode: cards in the same grid row grow together
+//   - Modal mode: a global overlay shows full content
+// ════════════════════════════════════════════════════════════
+
+// Generic grid used by all listing pages
+.book-grid,
+.recipe-grid,
+.travel-grid,
+.listing-grid {
+  max-width: $width-page;
+  margin-inline: auto;
+  padding-inline: $space-5;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $space-4;
+  @media (max-width: 640px) { padding-inline: $space-4; grid-template-columns: 1fr; }
+}
+
+// Travel grid: wider cards
+.travel-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+
+// ── Card base ─────────────────────────────────────────
+// All card classes share this structure via a shared set of
+// selectors. Each prefix (book, recipe, travel) gets the same
+// visual treatment, themed by the page's --accent variable.
+
+%card-base {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: border-color $dur-base $ease, box-shadow $dur-base $ease;
+  cursor: pointer;
+}
+
+@mixin card-selectors($prefix) {
+  .#{$prefix}-card {
+    @extend %card-base;
+
+    &:hover {
+      border-color: var(--accent, $sakura);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  .#{$prefix}-card__header,
+  .#{$prefix}-card__heading {
+    display: flex;
+    align-items: baseline;
+    gap: $space-3;
+    padding: $space-4 $space-5 0;
+  }
+
+  .#{$prefix}-card__heading {
+    flex-direction: column;
+    gap: $space-1;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .#{$prefix}-card__title {
+    font-family: $font-serif;
+    font-size: $fs-xl;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: $lh-snug;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .#{$prefix}-card__meta {
+    font-size: $fs-xs;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-1 $space-2;
+  }
+
+  .#{$prefix}-card__source {
+    font-size: $fs-xs;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .#{$prefix}-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .#{$prefix}-card__body-wrap {
+    padding: $space-3 $space-5 $space-4;
+    overflow: hidden;
+    transition: max-height 0.4s $ease-soft;
+    max-height: var(--#{$prefix}-collapsed-height, 200px);
+  }
+
+  .#{$prefix}-card__body-inner {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--peer-lines, 6);
+    overflow: hidden;
+    line-height: $lh-relaxed;
+    color: var(--ink-soft);
+    font-size: $fs-sm;
+
+    &.keep-unclamped {
+      display: block;
+      -webkit-line-clamp: initial;
+    }
+  }
+
+  // Expanded states
+  .#{$prefix}-card--expanded .#{$prefix}-card__body-inner {
+    display: block;
+    -webkit-line-clamp: initial;
+  }
+  .#{$prefix}-card--expanded .#{$prefix}-card__body-wrap {
+    max-height: none;
+  }
+  .#{$prefix}-card--expanded {
+    border-color: var(--accent, $sakura);
+    box-shadow: var(--shadow-md);
+  }
+
+  .#{$prefix}-card--peer-expanded .#{$prefix}-card__body-inner {
+    -webkit-line-clamp: var(--peer-lines, 10);
+  }
+
+  .#{$prefix}-card.is-truncated .#{$prefix}-card__body-wrap {
+    cursor: pointer;
+  }
+
+  // Expand button (modal mode)
+  .#{$prefix}-card__expand-btn {
+    position: absolute;
+    top: $space-3;
+    right: $space-3;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-md;
+    background: var(--surface-2);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all $dur-fast $ease;
+    svg { width: 16px; height: 16px; }
+    &:hover { background: var(--accent-soft, $sakura-soft); color: var(--accent, $sakura); }
+  }
+
+  // Match preview
+  .#{$prefix}-card__match {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-2;
+    margin: 0 $space-5 $space-4;
+    padding: $space-3;
+    border-radius: $radius-md;
+    background: var(--accent-soft, $sakura-soft);
+    color: var(--ink-soft);
+    font-size: $fs-xs;
+    line-height: $lh-snug;
+    &[hidden] { display: none; }
+  }
+  .#{$prefix}-card__match-label {
+    flex-shrink: 0;
+    color: var(--accent, $sakura);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .#{$prefix}-card__match-text {
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .#{$prefix}-empty,
+  .#{$prefix}-loading {
+    grid-column: 1 / -1;
+  }
+}
+
+@include card-selectors("book");
+@include card-selectors("recipe");
+@include card-selectors("travel");
+@include card-selectors("listing");
+
+// Position expand button relative to card
+.book-card,
+.recipe-card,
+.travel-card,
+.listing-card {
+  position: relative;
+}
+
+// ── Modal overlay ─────────────────────────────────────
+
+@mixin modal-selectors($prefix) {
+  .#{$prefix}-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $space-5;
+    background: rgba(46, 42, 40, 0);
+    opacity: 0;
+    transition: opacity 0.25s $ease, background 0.25s $ease;
+  }
+  .#{$prefix}-modal-overlay.is-open {
+    opacity: 1;
+    background: rgba(46, 42, 40, 0.45);
+  }
+  .#{$prefix}-modal {
+    background: var(--bg);
+    border-radius: $radius-lg;
+    max-width: 920px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: $space-6 $space-7;
+    position: relative;
+    transform: scale(0.94) translateY(12px);
+    transition: transform 0.3s $ease-soft;
+    box-shadow: var(--shadow-lg);
+  }
+  .#{$prefix}-modal-overlay.is-open .#{$prefix}-modal {
+    transform: scale(1) translateY(0);
+  }
+  .#{$prefix}-modal__close {
+    position: absolute;
+    top: $space-4;
+    right: $space-4;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background $dur-fast $ease, color $dur-fast $ease;
+    &:hover { background: var(--accent-soft, $sakura-soft); color: var(--accent, $sakura); }
+  }
+  .#{$prefix}-modal__title {
+    font-family: $font-serif;
+    font-size: $fs-3xl;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: $space-2;
+    padding-right: $space-7;
+  }
+  .#{$prefix}-modal__subtitle {
+    font-size: $fs-sm;
+    color: var(--muted);
+    margin-bottom: $space-5;
+  }
+  .#{$prefix}-modal__body {
+    font-size: $fs-base;
+    line-height: $lh-relaxed;
+    color: var(--ink-soft);
+  }
+  .#{$prefix}-modal__body.prose > * + * { margin-top: $space-4; }
+  .#{$prefix}-modal__body.prose h2 { font-size: $fs-xl; margin-top: $space-5; }
+  .#{$prefix}-modal__body.prose h3 { font-size: $fs-lg; margin-top: $space-4; }
+}
+
+@include modal-selectors("book");
+@include modal-selectors("recipe");
+@include modal-selectors("travel");
+@include modal-selectors("listing");
+
+// ── Empty state ───────────────────────────────────────
+.empty-state {
+  text-align: center;
+  padding: $space-7;
+  color: var(--muted);
+  &__icon { font-size: 2rem; margin-bottom: $space-2; }
+  p { font-family: $font-serif; font-size: $fs-lg; }
+}
+.listing-loading { grid-column: 1 / -1; text-align: center; color: var(--muted); padding: $space-7; }

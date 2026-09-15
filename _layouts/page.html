@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<article class="page" role="article">
+  <header class="page__header">
+    <p class="page__eyebrow">{{ page.eyebrow | default: 'Notes' }}</p>
+    <h1 class="page__title">{{ page.title }}</h1>
+    {% if page.subtitle %}<p class="page__subtitle">{{ page.subtitle }}</p>{% endif %}
+  </header>
+  <div class="prose page__body">{{ content }}</div>
+</article>

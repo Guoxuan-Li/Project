@@ -1,0 +1,43 @@
+---
+layout: default
+title: Recipes
+section: recipes
+accent: sakura
+eyebrow: Recipes
+permalink: /recipes/
+---
+<div class="travel-page-loading" id="travel-page-loading">
+  <div class="travel-page-loading__inner">
+    <div class="travel-page-loading__spinner"></div>
+    <p>Loading...</p>
+  </div>
+</div>
+
+<header class="listing-header">
+  <p class="listing-header__eyebrow">Recipes</p>
+  <h1 class="listing-header__title">Kitchen notebook</h1>
+  <p class="listing-header__desc">A slow-growing kitchen notebook -- some entries have full steps, while others are only a ratio.</p>
+</header>
+
+<div class="recipe-toolbar">
+  <div class="recipe-search" role="search">
+    <div class="recipe-search__chips" id="recipe-chips" aria-label="Locked search terms"></div>
+    <input class="recipe-search__input" id="recipe-search-input" type="search"
+      placeholder="Search by name, ingredient, ratio..." autocomplete="off"
+      aria-label="Search recipes">
+  </div>
+  <p class="recipe-search__hint">Type to search instantly. Press Enter to lock a term and keep stacking terms. Click AND / OR between terms to change the match mode.</p>
+  <p class="recipe-search__count">Total <strong id="recipe-count-total">--</strong> recipes &middot; Showing <strong id="recipe-count-shown">--</strong></p>
+</div>
+
+<div class="recipe-grid" id="recipe-grid" aria-live="polite">
+  <p class="recipe-loading">Loading...</p>
+</div>
+
+<template id="recipe-source" hidden>
+  {% for item in site.recipes %}
+    {% if item.slug == "notebook" %}{{ item.content | markdownify }}{% endif %}
+  {% endfor %}
+</template>
+
+<script src="{{ '/assets/js/recipes.js' | relative_url }}" defer></script>

@@ -1,0 +1,103 @@
+---
+layout: default
+title: 旅行地图
+section: travels
+accent: matcha
+eyebrow: 旅行地图
+permalink: /travels/
+---
+<div class="travel-page-loading" id="travel-page-loading">
+  <div class="travel-page-loading__inner">
+    <div class="travel-page-loading__spinner"></div>
+    <p>正在整理旅途……</p>
+  </div>
+</div>
+
+<header class="listing-header">
+  <p class="listing-header__eyebrow">THE PLACES ALONG THE WAY</p>
+  <h1 class="listing-header__title">把足迹，留在地图上。</h1>
+  <p class="listing-header__desc">沿着地图，重温路过的城市和沿途的小事。</p>
+  <div class="listing-header__actions">
+    <button type="button" class="listing-header__action" id="travel-summary-btn">行程手记 &rarr;</button>
+    {% if site.features.travel_rankings %}<button type="button" class="listing-header__action listing-header__action--rankings" id="travel-rankings-btn">旅行榜单 &rarr;</button>{% endif %}
+  </div>
+  <p class="tide-demo-note">示例足迹 · 地图只点亮到访城市，国家保持留白。切换“境内 / 境外”查看两类足迹，点击城市光点可筛选笔记。</p>
+</header>
+
+<div class="travel-map-container" id="travel-map-container">
+  <div class="travel-map-loading">正在展开地图……</div>
+</div>
+
+<div class="travel-toolbar">
+  <div class="travel-search-row">
+    <details class="travel-search-scope" id="travel-search-scope">
+      <summary><strong id="travel-search-scope-label">全部</strong></summary>
+      <div class="travel-search-scope__menu">
+        <div class="travel-filter-column">
+          <p>地区</p>
+          <div class="travel-filters" id="travel-filters" role="group" aria-label="按地区筛选">
+            <button type="button" class="travel-filters__chip is-active" data-continent="all">全部</button>
+          </div>
+        </div>
+        <div class="travel-filter-column">
+          <p>搜索范围</p>
+          <label><input type="checkbox" value="region" data-search-scope checked> 地区</label>
+          <label><input type="checkbox" value="title" data-search-scope checked> 城市 / 标题</label>
+          <label><input type="checkbox" value="body" data-search-scope checked> 正文</label>
+          <div class="travel-search-scope__actions">
+            <button type="button" data-scope-action="all">全选</button>
+            <button type="button" data-scope-action="none">清空</button>
+          </div>
+        </div>
+        <div class="travel-filter-column">
+          <p>笔记类型</p>
+          <label><input type="checkbox" value="city" data-card-type checked> 城市</label>
+          <label><input type="checkbox" value="country" data-card-type checked> 国家</label>
+        </div>
+      </div>
+    </details>
+    <div class="travel-search" role="search">
+      <div class="travel-search__chips" id="travel-chips" aria-label="已锁定的搜索词"></div>
+      <input class="travel-search__input" id="travel-search-input" type="search"
+             placeholder="搜索城市、国家，或一段回忆……" autocomplete="off" aria-label="搜索旅行笔记">
+    </div>
+  </div>
+  <p class="travel-search__hint">输入即可搜索；按回车保留关键词，可继续添加。点击 AND / OR 可切换“同时满足 / 任一满足”。</p>
+  <p class="travel-search__count">
+    <strong id="travel-count-total">&mdash;</strong> 则笔记 &middot; 显示 <strong id="travel-count-shown">&mdash;</strong> 则
+    <button type="button" class="travel-search__type" id="travel-count-type">国家与城市</button>
+  </p>
+</div>
+
+<div class="travel-grid" id="travel-grid" aria-live="polite">
+  <p class="travel-loading">正在整理旅途……</p>
+</div>
+
+<template id="travel-source" hidden>
+  {% for item in site.travels %}
+    {% if item.slug == "notebook" %}{{ item.content | markdownify }}{% endif %}
+  {% endfor %}
+</template>
+
+{% if site.features.travel_rankings %}
+<template id="travel-rankings-source" hidden>
+  {% for item in site.travels %}{% if item.slug == "rankings" %}{{ item.content | markdownify }}{% endif %}{% endfor %}
+</template>
+{% endif %}
+
+<template id="travel-summary-source" hidden>
+  {% for item in site.travels %}
+    {% if item.slug == "summary" %}{{ item.content | markdownify }}{% endif %}
+  {% endfor %}
+</template>
+
+<template id="travel-info-source" hidden>
+  {% for item in site.travels %}
+    {% if item.slug == "info" %}{{ item.content | markdownify }}{% endif %}
+  {% endfor %}
+</template>
+
+<script src="{{ '/assets/js/travels.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/travels-map.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/travels-summary.js' | relative_url }}" defer></script>
+{% if site.features.travel_rankings %}<script src="{{ '/assets/js/travels-rankings.js' | relative_url }}" defer></script>{% endif %}

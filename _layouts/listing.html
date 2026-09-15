@@ -1,0 +1,68 @@
+---
+layout: default
+---
+{%- comment -%}
+  Unified listing template for bookshelf, recipes, and similar
+  content-list pages.
+
+  Page front matter (set in the page file):
+    section       : page section key (bookshelf / recipes / etc.)
+    accent        : accent color key
+    eyebrow       : small label above title
+    card_mode     : "row" (vertical row expansion) or "modal" (global overlay)
+    card_prefix   : CSS class prefix for cards (e.g. "book", "recipe")
+    collapsed_lines: how many lines to show when collapsed (default 6)
+    search_scopes : space-separated scope keys
+    search_labels : pipe-separated scope labels
+    search_placeholder
+    search_unit   : count unit label
+    collection_key: which collection to read the notebook from
+                    (the notebook.md file inside that collection)
+
+  The content from <collection>/notebook.md is rendered to HTML
+  inside a hidden <template>, then listing.js parses H1/H2
+  headings to build cards.
+{%- endcomment -%}
+{% include loading.html %}
+
+<header class="listing-header">
+  <div class="container">
+    <p class="listing-header__eyebrow">{{ page.eyebrow }}</p>
+    <h1 class="listing-header__title">{{ page.title }}</h1>
+    <p class="listing-header__desc">{{ page.description }}</p>
+    {% if page.listing_actions %}
+      <div class="listing-header__actions">
+        {% for action in page.listing_actions %}
+          <button type="button" class="listing-header__action" {{ action.attrs }}>{{ action.label }}</button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</header>
+
+{% include search-bar.html
+   prefix=page.card_prefix
+   accent=page.accent
+   scopes=page.search_scopes
+   labels=page.search_labels
+   placeholder=page.search_placeholder
+   unit=page.search_unit %}
+
+<div class="{{ page.card_prefix }}-grid" data-card-grid
+     data-mode="{{ page.card_mode | default: 'row' }}"
+     data-prefix="{{ page.card_prefix }}"
+     data-collapsed-lines="{{ page.collapsed_lines | default: 6 }}"
+     aria-live="polite">
+  <p class="listing-loading">Loading...</p>
+</div>
+
+<template data-card-source hidden>
+ {% assign notebook_collection = page.collection_key %}
+  {% for item in site[notebook_collection] %}
+   {% if item.slug == "notebook" %}{{ item.content | markdownify }}{% endif %}
+ {% endfor %}
+</template>
+
+<script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/cards.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/listing.js' | relative_url }}" defer></script>

@@ -1,0 +1,40 @@
+---
+layout: default
+---
+<section class="memory-page container" data-memory-kind="{{ page.section }}">
+  <header class="memory-hero">
+    <div><p class="tide-eyebrow"><span class="tide-dot"></span>{{ page.eyebrow }}</p><h1>{{ page.heading }}</h1><p>{{ page.description }}</p></div>
+    <button class="memory-add" type="button" data-memory-open>＋ 添加照片与配字</button>
+  </header>
+  <p class="memory-local-note">添加的照片会作为本设备草稿保存在当前浏览器中。公开内容请按页面底部说明放入网站素材目录。</p>
+  <div class="memory-filter" role="search"><label for="memory-search">在这一页寻找</label><input id="memory-search" type="search" placeholder="搜索标题、地点或配字……"></div>
+  <div class="memory-grid" data-memory-grid>
+    {% assign memory_items = site[page.collection_key] %}
+    {% for item in memory_items %}
+    <article class="memory-card" data-memory-card data-search="{{ item.title }} {{ item.location }} {{ item.caption }}">
+      <figure><img src="{{ item.image | relative_url }}" alt="{{ item.alt | default: item.title | escape }}" loading="lazy"><figcaption>{{ item.caption }}</figcaption></figure>
+      <div class="memory-card__body"><p class="memory-card__meta">{{ item.date }}{% if item.location %} · {{ item.location }}{% endif %}</p><h2>{{ item.title }}</h2><div class="memory-card__story">{{ item.content | markdownify }}</div>
+      {% if item.location %}{% if page.section == 'food' %}<a class="memory-place-link" href="{{ '/travels/' | relative_url }}?q={{ item.location | escape }}">在旅行地图找到这里 →</a>{% endif %}{% endif %}</div>
+    </article>
+    {% endfor %}
+  </div>
+  <div class="memory-empty" hidden data-memory-empty>没有找到相符的记录。</div>
+  <aside class="memory-help"><strong>怎样公开新照片？</strong><p>把图片放进 <code>assets/images/uploads/</code>，再在相应内容文件夹新增一份 Markdown。完整示例写在项目 README 中。</p></aside>
+</section>
+<div class="memory-dialog" hidden data-memory-dialog>
+  <div class="memory-dialog__panel" role="dialog" aria-modal="true" aria-labelledby="memory-dialog-title">
+    <button class="memory-dialog__close" type="button" aria-label="关闭" data-memory-close>×</button>
+    <p class="tide-eyebrow">LOCAL DRAFT</p><h2 id="memory-dialog-title">添加照片与配字</h2>
+    <form data-memory-form>
+      <label>选择图片<input type="file" name="image" accept="image/*" required></label>
+      <div class="memory-preview" data-memory-preview>图片预览</div>
+      <label>标题<input name="title" maxlength="60" required></label>
+      <label>地点（可选）<input name="location" maxlength="50" placeholder="例如：成都"></label>
+      <label>图片配字<textarea name="caption" maxlength="180" rows="3" required></textarea></label>
+      <label>补充故事（可选）<textarea name="story" maxlength="600" rows="4"></textarea></label>
+      <p class="memory-form-status" role="status" data-memory-status></p>
+      <button class="tide-button" type="submit">保存到本设备</button>
+    </form>
+  </div>
+</div>
+<script src="{{ '/assets/js/gallery.js' | relative_url }}" defer></script>

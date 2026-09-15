@@ -1,0 +1,11 @@
+{%- comment -%}
+  Reusable full-page loading overlay.
+  Usage: {% include loading.html %}
+  JS hides it by adding the --hidden class once content is ready.
+{%- endcomment -%}
+<div class="page-loading" id="page-loading">
+  <div class="page-loading__inner">
+    <div class="page-loading__spinner"></div>
+    <p>Loading...</p>
+  </div>
+</div>
