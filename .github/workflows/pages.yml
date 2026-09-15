@@ -24,9 +24,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
       - name: 安装依赖
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: 构建网站
         env:
           BLOG_BASEURL: /${{ github.event.repository.name }}
