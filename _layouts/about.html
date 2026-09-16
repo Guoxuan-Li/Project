@@ -6,9 +6,9 @@ layout: default
     <div><p class="tide-eyebrow"><span class="tide-dot"></span> THE PERSON BEHIND THE MAP</p><h1>你好，我是<br><span>{{ site.author.name | escape }}。</span></h1><p class="tide-about__lead">{{ site.tagline }}</p></div>
     <div class="tide-about__portrait"><img src="{{ '/assets/images/cat-window.svg' | relative_url }}" width="500" height="440" alt="窗边的小猫和青绿色的大海"><span>很高兴在这里遇见你。</span></div>
   </div>
-  <div class="tide-about__body">
+  {% assign about_doc = site.about | first %}{% if about_doc.content and about_doc.content != '' %}<div class="tide-about__body">
     <div class="tide-margin-label">A FEW THINGS<br>ABOUT ME <span aria-hidden="true">↘</span></div>
-    <div class="prose tide-about__prose">{% assign about_doc = site.about | first %}{{ about_doc.content | markdownify }}</div>
-  </div>
+    <div class="prose tide-about__prose">{{ about_doc.content | markdownify }}</div>
+  </div>{% endif %}
   <a class="tide-about__next" href="{{ '/travels/' | relative_url }}"><span>下一站</span><strong>一起去地图上看看</strong><span aria-hidden="true">↗</span></a>
 </section>

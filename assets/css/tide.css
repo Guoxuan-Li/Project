@@ -133,6 +133,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible {
 .city-map-tabs { display:flex;gap:6px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px; }
 .city-map-tab { padding:7px 15px;border-radius:999px;color:var(--muted);font-size:12px; }
 .city-map-tab.is-active { background:#367f75;color:#fff; }
+.city-map-region-tabs { display:flex;justify-content:center;gap:8px;padding:14px 20px 2px;background:color-mix(in srgb,var(--surface-2) 72%,var(--surface)); }
+.city-map-region-tab { padding:7px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:11px; }
+.city-map-region-tab.is-active { border-color:#367f75;background:#367f75;color:#fff; }
 .city-map-viewport { margin:0;padding:16px 22px 5px;overflow:hidden;background:color-mix(in srgb,var(--surface-2) 72%,var(--surface)); }
 .city-map-viewport svg { width:100%;height:auto;max-height:460px; }
 .city-map-land { pointer-events:none; }.city-map-land path { fill:color-mix(in srgb,var(--surface) 78%,var(--cream));stroke:var(--line);stroke-width:1.2;vector-effect:non-scaling-stroke; }
@@ -252,6 +255,7 @@ a.friend-card:hover { color:var(--ink);text-decoration:none;transform:translateY
   .page--travels .travel-map-container { margin-inline:16px; }
   .city-map-head { align-items:flex-start;flex-direction:column;padding:20px; }
   .city-map-tabs { width:100%; }.city-map-tab { flex:1; }
+  .city-map-region-tabs { overflow-x:auto;justify-content:flex-start;padding-inline:12px; }.city-map-region-tab { flex:0 0 auto; }
   .city-map-viewport { padding:10px 5px; }.city-map-viewport svg { min-height:280px; }.city-map-pin text { font-size:27px;stroke-width:6px; }
   .city-map-legend { padding-inline:18px; }
   .memory-page { padding-top:35px; }.memory-hero { align-items:flex-start;flex-direction:column;gap:18px; }

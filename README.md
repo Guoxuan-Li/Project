@@ -24,7 +24,7 @@
 - 美食与旅行城市双向跳转；小动物、手作物和美食页面支持图片与配字。
 - 三个相册页面都可从浏览器上传本设备草稿，使用 IndexedDB 保存。
 - 适配手机、平板与桌面。保留原作者 MIT 许可证。
-- 个人介绍仍是可替换的初稿；旅行地点已按当前足迹更新。
+- 示例记录已经清空，旅行地点按当前足迹保留，内容可从 GitHub 继续填写。
 
 ## 启动网站
 
@@ -71,19 +71,19 @@ npm run preview
 添加旅行笔记时，沿用以下格式；国家与城市标题保留英文名称有助于搜索和阅读：
 
 ```markdown
-<div data-travel-continent="亚洲" hidden></div>
+<div data-travel-continent="欧洲" hidden></div>
 
-# 日本 Japan
+# 英国 United Kingdom
 
-## 京都 Kyoto (3d)
+## 伦敦 London (3d)
 
 这里写自己的旅行笔记，也可以插入照片。
 
-![照片说明](/assets/images/my-trip.jpg)
+![照片说明](/assets/images/uploads/london.jpg)
 *这行文字会成为图片下方的配字。*
 ```
 
-`(3d)` 是三天；没有可靠天数时可以不写。照片放在 `assets/images/`。地图光点需要在 `assets/data/travel-cities.json` 增加同一城市的经纬度，其中 `domestic: true` 表示境内。
+`(3d)` 是三天；没有可靠天数时可以不写。照片放在 `assets/images/uploads/`。地图光点需要在 `assets/data/travel-cities.json` 增加同一城市的经纬度，其中 `domestic: true` 表示境内；境外地点使用 `region: "europe"`、`"asia"` 或 `"americas"`。地图的旧 `note` 字段已经移除，悬停光点时只显示地点和国家。
 
 小动物、手作物和美食使用相同的图文格式。例如在 `sample_data/content/_foods/` 新建 `chengdu-snack.md`：
 
@@ -106,7 +106,7 @@ caption: 图片下面显示的配字。
 
 行程汇总的第一段 H1 是总标题，后续 H1 是地区，H2 是年份。每行最后的数字是该次行程天数，例如 `巴黎 里昂7`。可加 `&` 和同行人，例如 `巴黎 里昂7 & 朋友`；省略同行人则不展示同行信息。
 
-替换真实内容后，删除地图页 `pages/travels/index.html` 中的示例提示，并修改关于我正文中的初稿说明。不要仅把 `backend.mode` 切到 `cloudflare`：该操作会切换到另一棵 `content/` 内容目录；原模板的后端模块暂未启用。
+不要仅把 `backend.mode` 切到 `cloudflare`：该操作会切换到另一棵 `content/` 内容目录；原模板的后端模块暂未启用。
 
 ## 发布
 
