@@ -26,7 +26,6 @@
   {"name":"三星堆 Sanxingdui","search":"三星堆","country":"中国","domestic":true,"lat":31.0057,"lon":104.2208,"labelDx":14,"labelDy":22},
 
   {"name":"巴黎 Paris","search":"巴黎","country":"法国","domestic":false,"region":"europe","lat":48.8566,"lon":2.3522,"labelDx":-14,"labelDy":-14},
-  {"name":"里昂 Lyon","search":"里昂","country":"法国","domestic":false,"region":"europe","lat":45.7640,"lon":4.8357,"labelDx":14,"labelDy":20},
   {"name":"伦敦 London","search":"伦敦","country":"英国","domestic":false,"region":"europe","lat":51.5074,"lon":-0.1278,"labelDx":14,"labelDy":21},
   {"name":"贝尔法斯特 Belfast","search":"贝尔法斯特","country":"英国","domestic":false,"region":"europe","lat":54.5973,"lon":-5.9301,"labelDx":-14,"labelDy":-15},
   {"name":"剑桥 Cambridge","search":"剑桥","country":"英国","domestic":false,"region":"europe","lat":52.2053,"lon":0.1218,"labelDx":14,"labelDy":-17},
