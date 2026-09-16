@@ -41,7 +41,7 @@
   var SEARCH_PLACEHOLDER = INPUT_EL ? INPUT_EL.getAttribute("placeholder") : "";
   var CARD_ANIM_MS = 300;
   var activeScrollAnimation = null;
-  var TRAVEL_CACHE_KEY = "x-gx-h-travel-cards-v3";
+  var TRAVEL_CACHE_KEY = "x-gx-h-travel-cards-v4";
   var resolvedCards = null;
 
   function escapeHtml(s) {
