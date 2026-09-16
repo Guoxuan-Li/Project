@@ -149,6 +149,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible {
 .city-map-legend span:first-child { display:flex;align-items:center;gap:8px; }
 .city-map-legend i { width:9px;height:9px;border-radius:50%;background:#fff;border:3px solid #317f9f;box-sizing:content-box; }
 .city-map-tooltip { position:fixed;z-index:90;display:grid;gap:3px;padding:10px 13px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-md);border-radius:9px;pointer-events:none;font-size:11px; }
+.city-map-tooltip[hidden] { display:none; }
 .city-map-tooltip strong { font-size:13px; }.city-map-tooltip span { color:var(--muted); }
 .travel-card__food-link { display:inline-flex;margin-top:18px;padding:8px 12px;border-radius:999px;background:var(--matcha-soft);color:var(--matcha-ink);font-size:11px; }
 .travel-card__body-inner img { width:100%;margin-top:15px;border-radius:9px; }.travel-card__body-inner img + em { display:block;margin-top:7px;color:var(--muted);font-size:11px; }
