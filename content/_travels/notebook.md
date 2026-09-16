@@ -13,10 +13,6 @@ The first morning was disorienting. The light was different, the bread was bette
 
 We walked for hours, got lost near the river, and found a small cafe that served the simplest and best lunch of the trip.
 
-## Lyon (2d)
-
-Quieter than expected. The old town glowed at dusk, and the food lived up to every cliche.
-
 <div data-travel-continent="Asia" hidden></div>
 
 # Japan

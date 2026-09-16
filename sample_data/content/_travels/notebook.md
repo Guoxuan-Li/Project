@@ -55,7 +55,6 @@ section: travels
 # 法国 France
 
 ## 巴黎 Paris
-## 里昂 Lyon
 
 # 意大利 Italy
 
