@@ -1,64 +1,38 @@
 ---
 layout: default
-title: Guestbook
+title: 留言板
 section: message
 accent: matcha
 permalink: /message/
-description: Leave a message, or see what others have written.
+description: 在 X_GX_H 的小站留下想说的话。
 ---
 
-<header class="listing-header message-header">
-    <p class="listing-header__eyebrow">Guestbook</p>
-    <h1 class="listing-header__title">Leave a message here</h1>
-    <p class="listing-header__desc">Leave your memories here.</p>
-</header>
+<div class="container guestbook-page">
+  <header class="guestbook-intro">
+    <p class="guestbook-eyebrow">A LITTLE NOTE FOR ME</p>
+    <h1>留言板</h1>
+    <p>路过这里的话，留下几句话吧。旅行、美食、小动物，或者今天的心情，都欢迎分享。</p>
+  </header>
 
-<div class="message-layout" data-guestbook-likes="{{ site.features.guestbook_likes }}">
-  <form class="message-form" id="message-form" novalidate>
-    <div class="message-form__row">
-      <label class="message-field">
-        <span>Your name</span>
-        <input id="message-name" name="name" type="text" maxlength="40" autocomplete="name" required>
-      </label>
-      <button class="message-contact-toggle" id="message-contact-toggle" type="button"
-              aria-expanded="false" aria-controls="message-contact-panel">
-        <span aria-hidden="true">+</span><span>Contact</span>
-      </button>
-      <div class="message-contact-panel" id="message-contact-panel" aria-hidden="true">
-        <div class="message-contact-panel__label">
-          <label for="message-contact">Contact <small>optional</small></label>
-          <label class="message-contact-public">
-            <input id="message-public-contact" name="public_contact" type="checkbox" value="true" tabindex="-1">
-            <span>Show publicly</span>
-          </label>
-        </div>
-        <input class="message-contact-input" id="message-contact" name="contact" type="text" maxlength="120"
-               placeholder="Email, social, or other" tabindex="-1">
-        <p class="message-contact-privacy" id="message-contact-privacy" aria-live="polite">
-          Contact info will never be exposed
-        </p>
-      </div>
-    </div>
-    <label class="message-field">
-      <span>Your message</span>
-      <textarea id="message-content" name="content" rows="5" maxlength="1000" required></textarea>
-    </label>
-    <label class="message-trap" aria-hidden="true">Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label>
-    <div class="message-form__footer">
-      <p class="message-form__status" id="message-form-status" role="status" aria-live="polite"></p>
-      <button class="message-submit" type="submit">Send message</button>
-    </div>
-  </form>
-  <section class="message-list-section" aria-labelledby="message-list-title">
-    <div class="message-list__heading">
-      <h2 id="message-list-title">Messages</h2>
-      <span id="message-count" aria-live="polite"></span>
-    </div>
-    <div class="message-list" id="message-list" aria-live="polite" aria-busy="true">
-      <p class="message-list__notice">Loading messages...</p>
+  <section class="guestbook-compose" aria-labelledby="guestbook-compose-title">
+    <span class="guestbook-compose__cat" aria-hidden="true">{% include tide-icon.html icon="cat" %}</span>
+    <div>
+      <h2 id="guestbook-compose-title">写一封小留言</h2>
+      <p>留言会公开显示在这里。点击按钮后，在 GitHub 登录并发表评论即可。</p>
+      <a class="guestbook-button" href="https://github.com/Guoxuan-Li/Project/issues/1#new_comment_field" target="_blank" rel="noopener noreferrer">去写留言 ↗</a>
+      <small>请不要在留言中公开电话号码、邮箱等私人信息。</small>
     </div>
   </section>
-</div>
 
-{% if site.data.guestbook_sample %}<script type="application/json" id="guestbook-sample">{{ site.data.guestbook_sample | jsonify }}</script>{% endif %}
-<script src="{{ '/assets/js/message.js' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}" defer></script>
+  <section class="guestbook-notes" aria-labelledby="guestbook-notes-title" data-guestbook-api="https://api.github.com/repos/Guoxuan-Li/Project/issues/1/comments">
+    <div class="guestbook-notes__heading">
+      <div><span>FROM YOU</span><h2 id="guestbook-notes-title">大家的留言</h2></div>
+      <a href="https://github.com/Guoxuan-Li/Project/issues/1" target="_blank" rel="noopener noreferrer">在 GitHub 查看全部 ↗</a>
+    </div>
+    <div class="guestbook-list" id="guestbook-list" aria-live="polite" aria-busy="true">
+      <p class="guestbook-status">正在读取留言…</p>
+    </div>
+    <p class="guestbook-refresh">刚写完留言？<button type="button" id="guestbook-reload">刷新留言</button></p>
+  </section>
+</div>
+<script src="{{ '/assets/js/guestbook.js' | relative_url }}" defer></script>

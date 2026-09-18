@@ -65,7 +65,6 @@ exclude:
   - wrangler.toml
   - pages/bookshelf/
   - pages/experience/
-  - pages/message/
   - pages/posts/
   - pages/recipes/
   - pages/writing/
@@ -82,4 +81,5 @@ nav:
   - {key: animals, label: 小动物, path: /animals/, accent: sora}
   - {key: crafts, label: 手作物, path: /crafts/, accent: matcha}
   - {key: friends, label: 亲友, path: /friends/, accent: sora}
+  - {key: message, label: 留言板, path: /message/, accent: matcha}
   - {key: about, label: 关于我, path: /about/, accent: sora}

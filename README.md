@@ -52,6 +52,8 @@ npm run preview
 
 当前 `_config.yml` 使用 `backend.mode: demo`，原模板因此从 **`sample_data/content/`** 读取内容。保持这个模式也可以部署纯静态的个人网站；地图和搜索不需要数据库。
 
+留言板位于 `/message/`，访客留言保存在 GitHub 仓库的 [专用 Issue #1](https://github.com/Guoxuan-Li/Project/issues/1)，网页通过 GitHub 的公开 API 展示留言。访客需要登录 GitHub 才能发表；删除或管理留言请在 Issue 页面操作。留言不会写入原模板的演示数据或浏览器本地存储。
+
 | 想修改的内容 | 文件 |
 | --- | --- |
 | 站名、简介、导航、域名、子路径 | `_config.yml` |
