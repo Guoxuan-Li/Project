@@ -5,9 +5,9 @@ compatibility_date = "2026-09-18"
 [vars]
 ALLOWED_ORIGINS = "https://guoxuan-li.github.io"
 
-[[r2_buckets]]
+[[kv_namespaces]]
 binding = "GALLERY_IMAGES"
-bucket_name = "x-gx-h-gallery-images"
+id = "7644d36c0bfc4373b651afefa85e249e"
 
 [[d1_databases]]
 binding = "GALLERY_DB"

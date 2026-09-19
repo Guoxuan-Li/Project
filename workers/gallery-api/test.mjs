@@ -9,8 +9,8 @@ function environment() {
     ALLOWED_ORIGINS: 'https://guoxuan-li.github.io',
     UPLOAD_KEY: 'a-long-private-test-key',
     GALLERY_IMAGES: {
-      put: async (key, body, options) => images.set(key, { body: new Blob([await new Response(body).arrayBuffer()]), httpMetadata: options.httpMetadata }),
-      get: async key => images.get(key) || null,
+      put: async (key, body, options) => images.set(key, { value: await new Response(body).arrayBuffer(), metadata: options.metadata }),
+      getWithMetadata: async key => images.get(key) || { value: null, metadata: null },
       delete: async key => images.delete(key)
     },
     GALLERY_DB: {

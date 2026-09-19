@@ -1,17 +1,17 @@
 # X_GX_H 云端相册
 
-网站仍由 GitHub Pages 发布。这个 Cloudflare Worker 提供公开图片列表，使用 R2 保存图片、D1 保存标题、地点和配字。上传和删除需要站主密钥。密钥只放在 Cloudflare Secret 和站主上传时填写，**不要提交到 GitHub**。
+网站仍由 GitHub Pages 发布。这个 Cloudflare Worker 提供公开图片列表，使用 Workers KV 保存图片、D1 保存标题、地点和配字。上传和删除需要站主密钥。密钥只放在 Cloudflare Secret 和站主上传时填写，**不要提交到 GitHub**。
 
 ## 首次开通
 
-需要自己的 Cloudflare 账号，先在此目录运行 `npx wrangler login`。Cloudflare 可能要求先开通 R2 服务；以账号后台的提示为准。
+需要自己的 Cloudflare 账号，先在此目录运行 `npx wrangler login`。
 
 ```sh
-npx wrangler r2 bucket create x-gx-h-gallery-images
+npx wrangler kv namespace create GALLERY_IMAGES
 npx wrangler d1 create x-gx-h-gallery
 ```
 
-将第二个命令返回的 `database_id` 填入 `wrangler.toml`。然后初始化数据库：
+将两个命令返回的 KV `id` 和 D1 `database_id` 填入 `wrangler.toml`。然后初始化数据库：
 
 ```sh
 npx wrangler d1 execute x-gx-h-gallery --remote --file=./schema.sql

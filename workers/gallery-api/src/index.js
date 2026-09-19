@@ -46,9 +46,9 @@ export default {
 
       const imageMatch = /^\/images\/([a-f0-9-]{36})$/.exec(path);
       if (imageMatch && request.method === 'GET') {
-        const object = await env.GALLERY_IMAGES.get(imageMatch[1]);
-        if (!object) return json({ error: 'Image not found' }, 404, cors);
-        return new Response(object.body, { headers: { ...cors, 'content-type': object.httpMetadata?.contentType || 'application/octet-stream', 'cache-control': 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' } });
+        const object = await env.GALLERY_IMAGES.getWithMetadata(imageMatch[1], 'arrayBuffer');
+        if (!object.value) return json({ error: 'Image not found' }, 404, cors);
+        return new Response(object.value, { headers: { ...cors, 'content-type': object.metadata?.contentType || 'application/octet-stream', 'cache-control': 'public, max-age=31536000, immutable', 'x-content-type-options': 'nosniff' } });
       }
 
       if (path === '/items' && request.method === 'POST') {
@@ -64,7 +64,7 @@ export default {
         if (!KINDS.has(kind) || !title || !caption || title.length > 60 || location.length > 50 || caption.length > 180 || story.length > 600) return json({ error: '请检查标题、地点和配字' }, 400, cors);
         if (!(image instanceof File) || !TYPES.has(image.type) || image.size === 0 || image.size > MAX_BYTES) return json({ error: '请选择 8 MB 以内的 JPG、PNG、WebP、AVIF 或 GIF 图片' }, 400, cors);
         const id = crypto.randomUUID();
-        await env.GALLERY_IMAGES.put(id, image.stream(), { httpMetadata: { contentType: image.type } });
+        await env.GALLERY_IMAGES.put(id, image.stream(), { metadata: { contentType: image.type } });
         try {
           await env.GALLERY_DB.prepare('INSERT INTO gallery_items (id, kind, title, location, caption, story) VALUES (?, ?, ?, ?, ?, ?)').bind(id, kind, title, location, caption, story).run();
         } catch (error) {

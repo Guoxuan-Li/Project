@@ -55,7 +55,7 @@ npm run preview
 
 留言板位于 `/message/`，访客留言保存在 GitHub 仓库的 [专用 Issue #1](https://github.com/Guoxuan-Li/Project/issues/1)，网页通过 GitHub 的公开 API 展示留言。访客需要登录 GitHub 才能发表；删除或管理留言请在 Issue 页面操作。留言不会写入原模板的演示数据或浏览器本地存储。
 
-云端相册部署说明位于 `workers/gallery-api/README.md`。网站本体继续放在 GitHub Pages，照片文件存入 Cloudflare R2，标题、地点和配字存入 D1；站主上传需要 Cloudflare Secret 中保存的密钥。
+云端相册部署说明位于 `workers/gallery-api/README.md`。网站本体继续放在 GitHub Pages，照片文件存入 Cloudflare Workers KV，标题、地点和配字存入 D1；站主上传需要 Cloudflare Secret 中保存的密钥。
 
 | 想修改的内容 | 文件 |
 | --- | --- |
