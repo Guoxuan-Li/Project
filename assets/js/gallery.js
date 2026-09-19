@@ -12,8 +12,10 @@
   const preview = dialog.querySelector('[data-memory-preview]');
   const status = dialog.querySelector('[data-memory-status]');
   const keyField = dialog.querySelector('[data-memory-key-field]');
+  const ownerKeyName = 'x-gx-h-owner-key';
   let currentUrl = '';
   let lastFocus = null;
+  function savedOwnerKey() { try { return localStorage.getItem(ownerKeyName) || ''; } catch (_) { return ''; } }
 
   function openDb() {
     return new Promise((resolve, reject) => {
@@ -81,7 +83,7 @@
       if (local) {
         await transact('readwrite', store => store.delete(item.id));
       } else {
-        const key = prompt('请输入站主上传密钥');
+        const key = savedOwnerKey() || prompt('请输入站主上传密钥');
         if (!key) return;
         try {
           const response = await fetch(api + '/items/' + item.id, { method: 'DELETE', headers: { authorization: 'Bearer ' + key } });
@@ -134,6 +136,11 @@
     lastFocus = event.currentTarget;
     dialog.hidden = false;
     document.body.style.overflow = 'hidden';
+    if (api) {
+      const savedKey = savedOwnerKey();
+      form.upload_key.value = savedKey;
+      form.remember_key.checked = !!savedKey;
+    }
     form.image.focus();
   });
   dialog.querySelector('[data-memory-close]').addEventListener('click', close);
@@ -167,6 +174,10 @@
         const response = await fetch(api + '/items', { method: 'POST', headers: { authorization: 'Bearer ' + key }, body: data });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || '上传失败');
+        try {
+          if (form.remember_key.checked) localStorage.setItem(ownerKeyName, key);
+          else localStorage.removeItem(ownerKeyName);
+        } catch (_) {}
         grid.prepend(card(result, false));
         status.textContent = '已公开，其他人刷新页面即可看到。';
         filter();

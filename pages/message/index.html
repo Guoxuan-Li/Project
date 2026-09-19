@@ -18,16 +18,20 @@ description: 在 X_GX_H 的小站留下想说的话。
     <span class="guestbook-compose__cat" aria-hidden="true">{% include tide-icon.html icon="cat" %}</span>
     <div>
       <h2 id="guestbook-compose-title">写一封小留言</h2>
-      <p>留言会公开显示在这里。点击按钮后，在 GitHub 登录并发表评论即可。</p>
-      <a class="guestbook-button" href="https://github.com/Guoxuan-Li/Project/issues/1#new_comment_field" target="_blank" rel="noopener noreferrer">去写留言 ↗</a>
+      <p>不用登录，填写后会公开显示给所有访客。</p>
+      <form class="guestbook-form" id="guestbook-form" data-guestbook-api="{{ site.backend.gallery_api | escape }}">
+        <label>昵称<input name="name" maxlength="30" required autocomplete="name" placeholder="怎么称呼你？"></label>
+        <label>留言<textarea name="content" maxlength="500" rows="5" required placeholder="写下想说的话……"></textarea></label>
+        <label class="guestbook-honeypot" aria-hidden="true">网站<input name="website" tabindex="-1" autocomplete="off"></label>
+        <div class="guestbook-form__footer"><button class="guestbook-button" type="submit">公开留言</button><span id="guestbook-form-status" role="status"></span></div>
+      </form>
       <small>请不要在留言中公开电话号码、邮箱等私人信息。</small>
     </div>
   </section>
 
-  <section class="guestbook-notes" aria-labelledby="guestbook-notes-title" data-guestbook-api="https://api.github.com/repos/Guoxuan-Li/Project/issues/1/comments">
+  <section class="guestbook-notes" aria-labelledby="guestbook-notes-title" data-guestbook-api="{{ site.backend.gallery_api | escape }}">
     <div class="guestbook-notes__heading">
       <div><span>FROM YOU</span><h2 id="guestbook-notes-title">大家的留言</h2></div>
-      <a href="https://github.com/Guoxuan-Li/Project/issues/1" target="_blank" rel="noopener noreferrer">在 GitHub 查看全部 ↗</a>
     </div>
     <div class="guestbook-list" id="guestbook-list" aria-live="polite" aria-busy="true">
       <p class="guestbook-status">正在读取留言…</p>

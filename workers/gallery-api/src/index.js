@@ -20,6 +20,11 @@ async function equal(a, b) {
   return difference === 0;
 }
 
+async function hash(value) {
+  const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return [...new Uint8Array(bytes)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -37,6 +42,36 @@ export default {
     const path = url.pathname.replace(/\/$/, '');
 
     try {
+      if (path === '/comments' && request.method === 'GET') {
+        const result = await env.GALLERY_DB.prepare("SELECT id, name, content, created_at FROM guestbook_comments WHERE status = 'approved' ORDER BY created_at DESC LIMIT 100").all();
+        return json({ comments: result.results }, 200, { ...cors, 'cache-control': 'no-store' });
+      }
+
+      if (path === '/comments' && request.method === 'POST') {
+        if (Number(request.headers.get('content-length')) > 5000) return json({ error: '留言内容太长' }, 413, cors);
+        const data = await request.json().catch(() => null);
+        const name = String(data?.name || '').trim();
+        const content = String(data?.content || '').trim();
+        if (data?.website) return json({ ok: true }, 201, cors);
+        if (!name || !content || name.length > 30 || content.length > 500) return json({ error: '昵称需要 1–30 字，留言需要 1–500 字' }, 400, cors);
+        const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+        const ipHash = await hash(`${env.UPLOAD_KEY || 'guestbook'}:${ip}`);
+        const latest = await env.GALLERY_DB.prepare('SELECT created_at FROM guestbook_comments WHERE ip_hash = ? ORDER BY created_at DESC LIMIT 1').bind(ipHash).first();
+        if (latest?.created_at) {
+          const lastPost = Date.parse(String(latest.created_at).replace(' ', 'T') + 'Z');
+          if (Date.now() - lastPost < 60000) return json({ error: '请稍等一分钟再留言' }, 429, cors);
+        }
+        const result = await env.GALLERY_DB.prepare('INSERT INTO guestbook_comments (name, content, ip_hash) VALUES (?, ?, ?) RETURNING id, name, content, created_at').bind(name, content, ipHash).first();
+        return json(result, 201, cors);
+      }
+
+      const commentMatch = /^\/comments\/(\d+)$/.exec(path);
+      if (commentMatch && request.method === 'DELETE') {
+        if (!env.UPLOAD_KEY || !await equal(request.headers.get('authorization') || '', `Bearer ${env.UPLOAD_KEY}`)) return json({ error: '站主密钥不正确' }, 401, cors);
+        await env.GALLERY_DB.prepare('DELETE FROM guestbook_comments WHERE id = ?').bind(Number(commentMatch[1])).run();
+        return json({ ok: true }, 200, cors);
+      }
+
       if (path === '/items' && request.method === 'GET') {
         const kind = url.searchParams.get('kind');
         if (!KINDS.has(kind)) return json({ error: 'Invalid section' }, 400, cors);
