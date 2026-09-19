@@ -27,6 +27,7 @@ features:
 backend:
   mode: demo
   api_base: /api
+  gallery_api: ""
 collections_dir: content
 plugins:
   - jekyll-feed

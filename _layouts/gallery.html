@@ -1,12 +1,12 @@
 ---
 layout: default
 ---
-<section class="memory-page container" data-memory-kind="{{ page.section }}">
+<section class="memory-page container" data-memory-kind="{{ page.section }}" data-gallery-api="{{ site.backend.gallery_api | escape }}">
   <header class="memory-hero">
     <div><p class="tide-eyebrow"><span class="tide-dot"></span>{{ page.eyebrow }}</p><h1>{{ page.heading }}</h1><p>{{ page.description }}</p></div>
     <button class="memory-add" type="button" data-memory-open>＋ 添加照片与配字</button>
   </header>
-  <p class="memory-local-note">添加的照片会作为本设备草稿保存在当前浏览器中。公开内容请按页面底部说明放入网站素材目录。</p>
+  <p class="memory-local-note" data-memory-note>添加的照片会作为本设备草稿保存在当前浏览器中。公开内容请按页面底部说明放入网站素材目录。</p>
   <div class="memory-filter" role="search"><label for="memory-search">在这一页寻找</label><input id="memory-search" type="search" placeholder="搜索标题、地点或配字……"></div>
   <div class="memory-grid" data-memory-grid>
     {% assign memory_items = site[page.collection_key] %}
@@ -19,12 +19,12 @@ layout: default
     {% endfor %}
   </div>
   <div class="memory-empty" hidden data-memory-empty>没有找到相符的记录。</div>
-  <aside class="memory-help"><strong>怎样公开新照片？</strong><p>把图片放进 <code>assets/images/uploads/</code>，再在相应内容文件夹新增一份 Markdown。填写格式写在项目 README 中。</p></aside>
+  <aside class="memory-help" data-memory-help><strong>怎样公开新照片？</strong><p>把图片放进 <code>assets/images/uploads/</code>，再在相应内容文件夹新增一份 Markdown。填写格式写在项目 README 中。</p></aside>
 </section>
 <div class="memory-dialog" hidden data-memory-dialog>
   <div class="memory-dialog__panel" role="dialog" aria-modal="true" aria-labelledby="memory-dialog-title">
     <button class="memory-dialog__close" type="button" aria-label="关闭" data-memory-close>×</button>
-    <p class="tide-eyebrow">LOCAL DRAFT</p><h2 id="memory-dialog-title">添加照片与配字</h2>
+    <p class="tide-eyebrow" data-memory-mode>LOCAL DRAFT</p><h2 id="memory-dialog-title">添加照片与配字</h2>
     <form data-memory-form>
       <label>选择图片<input type="file" name="image" accept="image/*" required></label>
       <div class="memory-preview" data-memory-preview>图片预览</div>
@@ -32,8 +32,9 @@ layout: default
       <label>地点（可选）<input name="location" maxlength="50" placeholder="例如：成都"></label>
       <label>图片配字<textarea name="caption" maxlength="180" rows="3" required></textarea></label>
       <label>补充故事（可选）<textarea name="story" maxlength="600" rows="4"></textarea></label>
+      <label data-memory-key-field hidden>站主上传密钥<input name="upload_key" type="password" autocomplete="off" placeholder="只在站主上传时填写"></label>
       <p class="memory-form-status" role="status" data-memory-status></p>
-      <button class="tide-button" type="submit">保存到本设备</button>
+      <button class="tide-button" type="submit" data-memory-submit>保存到本设备</button>
     </form>
   </div>
 </div>

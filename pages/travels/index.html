@@ -73,6 +73,35 @@ permalink: /travels/
   <p class="travel-loading">正在整理旅途……</p>
 </div>
 
+<section class="memory-page container" data-memory-kind="travels" data-gallery-api="{{ site.backend.gallery_api | escape }}">
+  <header class="memory-hero">
+    <div><p class="tide-eyebrow">TRAVEL PHOTOS</p><h2>沿途照片</h2><p>给城市留下一张照片和一段话。</p></div>
+    <button class="memory-add" type="button" data-memory-open>＋ 添加旅行照片</button>
+  </header>
+  <p class="memory-local-note" data-memory-note>添加的照片会作为本设备草稿保存在当前浏览器中。</p>
+  <div class="memory-filter" role="search"><label for="memory-search">寻找照片</label><input id="memory-search" type="search" placeholder="搜索城市、标题或配字……"></div>
+  <div class="memory-grid" data-memory-grid></div>
+  <div class="memory-empty" hidden data-memory-empty>没有找到相符的照片。</div>
+  <aside class="memory-help" data-memory-help><strong>怎样公开新照片？</strong><p>在 GitHub 上传图片，再添加到旅行笔记。云端上传启用后，也可直接从这里发布。</p></aside>
+</section>
+<div class="memory-dialog" hidden data-memory-dialog>
+  <div class="memory-dialog__panel" role="dialog" aria-modal="true" aria-labelledby="memory-dialog-title">
+    <button class="memory-dialog__close" type="button" aria-label="关闭" data-memory-close>×</button>
+    <p class="tide-eyebrow" data-memory-mode>LOCAL DRAFT</p><h2 id="memory-dialog-title">添加旅行照片</h2>
+    <form data-memory-form>
+      <label>选择图片<input type="file" name="image" accept="image/*" required></label>
+      <div class="memory-preview" data-memory-preview>图片预览</div>
+      <label>标题<input name="title" maxlength="60" required></label>
+      <label>城市或地点<input name="location" maxlength="50" required placeholder="例如：伦敦"></label>
+      <label>图片配字<textarea name="caption" maxlength="180" rows="3" required></textarea></label>
+      <label>补充故事（可选）<textarea name="story" maxlength="600" rows="4"></textarea></label>
+      <label data-memory-key-field hidden>站主上传密钥<input name="upload_key" type="password" autocomplete="off"></label>
+      <p class="memory-form-status" role="status" data-memory-status></p>
+      <button class="tide-button" type="submit" data-memory-submit>保存到本设备</button>
+    </form>
+  </div>
+</div>
+
 <template id="travel-source" hidden>
   {% for item in site.travels %}
     {% if item.slug == "notebook" %}{{ item.content | markdownify }}{% endif %}
@@ -98,6 +127,7 @@ permalink: /travels/
 </template>
 
 <script src="{{ '/assets/js/travels.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/gallery.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/travels-map.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/travels-summary.js' | relative_url }}" defer></script>
 {% if site.features.travel_rankings %}<script src="{{ '/assets/js/travels-rankings.js' | relative_url }}" defer></script>{% endif %}

@@ -30,6 +30,7 @@ jobs:
         env:
           BLOG_BASEURL: /${{ github.event.repository.name }}
           BLOG_URL: https://${{ github.repository_owner }}.github.io
+          BLOG_GALLERY_API: ${{ vars.CLOUDFLARE_GALLERY_API }}
         run: node scripts/build.mjs
       - name: 设置 GitHub Pages
         uses: actions/configure-pages@v5

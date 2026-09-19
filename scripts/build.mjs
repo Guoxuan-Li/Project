@@ -37,6 +37,7 @@ site.baseurl = process.env.BLOG_BASEURL ?? site.baseurl ?? '';
 site.url = process.env.BLOG_URL ?? site.url ?? '';
 site.time = new Date();
 site.backend.mode = process.env.BLOG_BACKEND_MODE || site.backend.mode;
+site.backend.gallery_api = process.env.BLOG_GALLERY_API || site.backend.gallery_api || '';
 if (site.backend.mode === 'auto') site.backend.mode = await exists('sample_data') ? 'demo' : 'cloudflare';
 site.data_source = site.backend.mode === 'demo' ? 'sample' : 'content';
 const contentRoot = site.data_source === 'sample' ? 'sample_data/content' : site.collections_dir;

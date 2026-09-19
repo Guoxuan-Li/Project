@@ -23,6 +23,7 @@
 - 境内 / 境外城市地图。只点亮去过的城市坐标，不填充整个国家。
 - 美食与旅行城市双向跳转；小动物、手作物和美食页面支持图片与配字。
 - 三个相册页面都可从浏览器上传本设备草稿，使用 IndexedDB 保存。
+- 已准备 Cloudflare 云端相册：旅行、美食、小动物和手作页面可直接上传并让所有访客看到；完成账号部署后自动启用。
 - 适配手机、平板与桌面。保留原作者 MIT 许可证。
 - 示例记录已经清空，旅行地点按当前足迹保留，内容可从 GitHub 继续填写。
 
@@ -53,6 +54,8 @@ npm run preview
 当前 `_config.yml` 使用 `backend.mode: demo`，原模板因此从 **`sample_data/content/`** 读取内容。保持这个模式也可以部署纯静态的个人网站；地图和搜索不需要数据库。
 
 留言板位于 `/message/`，访客留言保存在 GitHub 仓库的 [专用 Issue #1](https://github.com/Guoxuan-Li/Project/issues/1)，网页通过 GitHub 的公开 API 展示留言。访客需要登录 GitHub 才能发表；删除或管理留言请在 Issue 页面操作。留言不会写入原模板的演示数据或浏览器本地存储。
+
+云端相册部署说明位于 `workers/gallery-api/README.md`。网站本体继续放在 GitHub Pages，照片文件存入 Cloudflare R2，标题、地点和配字存入 D1；站主上传需要 Cloudflare Secret 中保存的密钥。
 
 | 想修改的内容 | 文件 |
 | --- | --- |
