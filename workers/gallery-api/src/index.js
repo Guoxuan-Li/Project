@@ -6,10 +6,17 @@ function json(value, status = 200, headers = {}) {
   return new Response(JSON.stringify(value), { status, headers: { 'content-type': 'application/json; charset=utf-8', ...headers } });
 }
 
-function equal(a, b) {
-  if (!a || !b || a.length !== b.length) return false;
+async function equal(a, b) {
+  if (!a || !b) return false;
+  const encoder = new TextEncoder();
+  const [left, right] = await Promise.all([
+    crypto.subtle.digest('SHA-256', encoder.encode(a)),
+    crypto.subtle.digest('SHA-256', encoder.encode(b))
+  ]);
+  const x = new Uint8Array(left);
+  const y = new Uint8Array(right);
   let difference = 0;
-  for (let i = 0; i < a.length; i++) difference |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  for (let i = 0; i < x.length; i++) difference |= x[i] ^ y[i];
   return difference === 0;
 }
 
@@ -45,7 +52,7 @@ export default {
       }
 
       if (path === '/items' && request.method === 'POST') {
-        if (!env.UPLOAD_KEY || !equal(request.headers.get('authorization') || '', `Bearer ${env.UPLOAD_KEY}`)) return json({ error: '上传密钥不正确' }, 401, cors);
+        if (!env.UPLOAD_KEY || !await equal(request.headers.get('authorization') || '', `Bearer ${env.UPLOAD_KEY}`)) return json({ error: '上传密钥不正确' }, 401, cors);
         if (Number(request.headers.get('content-length')) > MAX_BYTES + 30000) return json({ error: '图片不能超过 8 MB' }, 413, cors);
         const data = await request.formData();
         const image = data.get('image');
@@ -69,7 +76,7 @@ export default {
 
       const itemMatch = /^\/items\/([a-f0-9-]{36})$/.exec(path);
       if (itemMatch && request.method === 'DELETE') {
-        if (!env.UPLOAD_KEY || !equal(request.headers.get('authorization') || '', `Bearer ${env.UPLOAD_KEY}`)) return json({ error: '上传密钥不正确' }, 401, cors);
+        if (!env.UPLOAD_KEY || !await equal(request.headers.get('authorization') || '', `Bearer ${env.UPLOAD_KEY}`)) return json({ error: '上传密钥不正确' }, 401, cors);
         await env.GALLERY_DB.prepare('DELETE FROM gallery_items WHERE id = ?').bind(itemMatch[1]).run();
         await env.GALLERY_IMAGES.delete(itemMatch[1]);
         return json({ ok: true }, 200, cors);

@@ -12,4 +12,4 @@ bucket_name = "x-gx-h-gallery-images"
 [[d1_databases]]
 binding = "GALLERY_DB"
 database_name = "x-gx-h-gallery"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "1d04bf5b-c7d3-4ef8-b33a-7773086e0da9"
